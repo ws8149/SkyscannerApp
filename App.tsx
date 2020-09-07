@@ -5,55 +5,23 @@ import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
 import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SearchScreen from './screens/SearchScreen'
+import ResultsScreen from './screens/ResultsScreen'
+
+const Stack = createStackNavigator();
 
 
-
-export interface Props {
-  name: string;  
-}
-
-const SearchContainer = styled.View`
-  flex: 1;    
-`
-
-const ButtonContainer = styled.View`  
-  flex-direction: row;  
-  justify-content: space-evenly;  
-`
-
-const StyledInput = styled(Input).attrs({
-  textAlign: 'right',  
-})``;
-
-
-
-
-const App: React.FC<Props> = (props) => {
-  
-  const [departureAirport, setDepartureAirport] = useState('')        
-  const [destinationAirport, setDestinationAirport] = useState('')
-  const [departureDate, setDepartureDate] = useState('')
-  const [returnDate, setReturnDate] = useState('')  
+const App: React.FC = () => {   
 
   return (
-    <SearchContainer>      
-      <Input         
-        placeholder='Departure From' 
-        onChangeText={text => setDepartureAirport(text)}/>        
-      <Input 
-        placeholder='Destination'
-        onChangeText={text => setDestinationAirport(text)}
-      />            
-      <Input 
-        placeholder='Departure Date'
-        onChangeText={text => setDepartureDate(text)}/>
-      <Input 
-        placeholder='Return Date'
-        onChangeText={text => setReturnDate(text)}/>
-      
-      <Button title="Search"/>
-      
-    </SearchContainer>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Results" component={ResultsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
