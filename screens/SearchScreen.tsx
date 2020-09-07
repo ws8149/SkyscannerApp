@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
 import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
-import { NavigationContainer } from '@react-navigation/native';
 
 const SearchContainer = styled.View`
   flex: 1;    
@@ -34,7 +33,7 @@ const SearchScreen: React.FC = ({navigation}) => {
 
   const search = () => {
     navigation.navigate('Results', {
-        state: state
+        searchParams: state
     })
   }
 

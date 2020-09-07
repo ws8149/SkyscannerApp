@@ -1,10 +1,5 @@
 // components/Hello.tsx
-import React, {useState} from 'react';
-import { View, TextInput } from 'react-native';
-import styled from 'styled-components/native';
-import { Input } from 'react-native-elements';
-import { Text } from 'react-native-elements';
-import { Button } from 'react-native-elements';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './screens/SearchScreen'
