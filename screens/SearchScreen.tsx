@@ -5,6 +5,8 @@ import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
 import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
+
 
 const SearchContainer = styled.View`
   flex: 1;    
@@ -22,9 +24,10 @@ const StyledInput = styled(Input).attrs({
 
 
 
-const SearchScreen: React.FC = ({navigation}) => {   
-  
-  const [state, setState] = useState({
+const SearchScreen: React.FC = () => {   
+  const navigation = useNavigation();
+
+  const [searchParams, setState] = useState({
     departureAirport: '',
     destinationAirport: '',
     departureDate: '',
@@ -33,7 +36,7 @@ const SearchScreen: React.FC = ({navigation}) => {
 
   const search = () => {
     navigation.navigate('Results', {
-        searchParams: state
+        searchParams: searchParams
     })
   }
 
@@ -41,16 +44,16 @@ const SearchScreen: React.FC = ({navigation}) => {
     <SearchContainer>      
       <Input         
         placeholder='Departure From' 
-        onChangeText={text => setState({...state, departureAirport: text})}/>        
+        onChangeText={text => setState({...searchParams, departureAirport: text})}/>        
       <Input 
         placeholder='Destination'
-        onChangeText={text => setState({...state, destinationAirport: text})}/>                
+        onChangeText={text => setState({...searchParams, destinationAirport: text})}/>                
       <Input 
         placeholder='Departure Date'
-        onChangeText={text => setState({...state, departureDate: text})}/>        
+        onChangeText={text => setState({...searchParams, departureDate: text})}/>        
       <Input 
         placeholder='Return Date'
-        onChangeText={text => setState({...state, returnDate: text})}/>        
+        onChangeText={text => setState({...searchParams, returnDate: text})}/>        
       
       <Button title="Search" onPress={search} />
       
