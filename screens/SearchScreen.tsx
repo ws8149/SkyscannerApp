@@ -71,14 +71,19 @@ const SearchScreen: React.FC = () => {
     setIsOneWay(prevState => !prevState) 
     setSearchParams({...searchParams, returnDate: ''})
   }
+
+  const selectDepartureAirport = (placeId : string, placeName : string) => {      
+      setModalVisible(false)
+      setSearchParams({...searchParams, departureAirport: placeName})
+  }
   
 
   return (
     <SearchContainer>      
-      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectDepartureAirport={selectDepartureAirport} />
       
       <TouchableOpacity onPress={()=>setModalVisible(true)}>
-        <Input placeholder='Departure From (eg: KUL)' disabled={true}/>
+        <Input value={searchParams.departureAirport} placeholder='Departure From (eg: KUL)' disabled={true}/>
       </TouchableOpacity>     
       
       <Input 

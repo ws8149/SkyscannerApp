@@ -17,7 +17,7 @@ const SelectContainer = styled.View`
     margin-top: 50px;
 `
 
-const AirportSelectModal: React.FC = ({modalVisible,setModalVisible}) => {    
+const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectDepartureAirport}) => {    
     const [airportData, setAirportData] = useState();
     const [searchResults, setSearchResults] = useState();
     const [searchText, setSearchText] = useState('');
@@ -31,14 +31,10 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible}) => {
             }).catch( err => console.log(err) )
         }
         
-    }
-
-    const selectAirport = (placeId : string) => {
-        console.log(placeId)
-    }
+    }    
 
     const renderItem = ({item}) => (
-        <TouchableOpacity onPress={()=>selectAirport(item['PlaceId'])}>
+        <TouchableOpacity onPress={()=>selectDepartureAirport(item['PlaceId'],item['PlaceName'])}>
             <ListItem bottomDivider>
                 <ListItem.Content>
                     <ListItem.Title>
