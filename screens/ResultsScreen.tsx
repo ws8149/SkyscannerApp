@@ -5,6 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { ListItem } from 'react-native-elements';
 
+
 // Set up axios
 axios.defaults.baseURL = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices"
 axios.defaults.headers.common['x-rapidapi-host'] = 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com';
@@ -26,34 +27,56 @@ const ResultsScreen: React.FC = () => {
     
         
     useEffect(() => {
-        console.log(searchParams)
+        
 
         axios.get(`/browsequotes/v1.0/MY/MYR/en-MY/KUL-sky/LHR-sky/2020-09-25`).then( res => {
+                        
+            let carriers = res.data['Carriers']                       
             
-            setQuotes(res.data['Quotes'])
-            setCarriers(res.data['Carriers'])            
+            // Map carrier name to id
+            let responseQuotes = res.data['Quotes']                        
+
+            for (var i = 0; i < responseQuotes.length; i++) {
+                let carrierIds = responseQuotes[i]['OutboundLeg']['CarrierIds']                
+                for (var j = 0; j < carrierIds.length; j++) {
+                    let carrier = carriers.find(c => { 
+                        c['CarrierId'] === carrierIds[j]
+                    })                                    
+                    carrierIds[j] = { 
+                        CarrierId: carrierIds[j], 
+                        CarrierName: carrier['Name'] 
+                    };              
+                }
+            }
+            
+            setQuotes(responseQuotes)
+            
             
           })
           .catch(err => console.log(err))                  
     }, [])
 
+    const formatCarrierNames = (carrierIds) => {        
+        let carrierNamesOutput = "";
+        carrierIds.map(c => {
+            carrierNamesOutput += c['CarrierName'] + " "
+        })
+        return carrierNamesOutput;
+    }
+
     const renderItem = ({item}) => (
         <ListItem bottomDivider>
             <ListItem.Content>
                 <ListItem.Title>
-                    {carrierIdToName(item['OutboundLeg']['CarrierIds'][0])}
+                    {/* TODO: format for inboundleg as well */}
+                    {formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
                 </ListItem.Title>                
                 <ListItem.Subtitle>{"Minimum Price: RM"+ item['MinPrice']}</ListItem.Subtitle>
-                <ListItem.Subtitle>{"Direct: " + item['Direct']}</ListItem.Subtitle>
+                <ListItem.Subtitle>{"Direct: " + item['Direct']}</ListItem.Subtitle>                
             </ListItem.Content>
         </ListItem>
     )
 
-    // Converts carrier id to carrier name
-    const carrierIdToName = (id) => {        
-        let carrier = carriers.find(c => c['CarrierId'] === id)        
-        return carrier['Name'];              
-    }
 
     const keyExtractor = (item,index) => index.toString()
 
