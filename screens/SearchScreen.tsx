@@ -52,6 +52,7 @@ const AirportSelectText = styled.Text`
 const SearchScreen: React.FC = () => {   
   const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState(false)
+  const [isDestination, setIsDestination] = useState(false)
   const [searchParams, setSearchParams] = useState({
     departureAirport: '',
     destinationAirport: '',
@@ -72,25 +73,42 @@ const SearchScreen: React.FC = () => {
     setSearchParams({...searchParams, returnDate: ''})
   }
 
-  const selectDepartureAirport = (placeId : string, placeName : string) => {      
+  const selectAirport = (placeId : string, placeName : string) => {      
       setModalVisible(false)
-      setSearchParams({...searchParams, departureAirport: placeName})
+      if (isDestination) {
+        setSearchParams({...searchParams, destinationAirport: placeName})
+      } else {
+        setSearchParams({...searchParams, departureAirport: placeName})
+      }      
   }
+
+  
   
 
   return (
     <SearchContainer>      
-      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectDepartureAirport={selectDepartureAirport} />
+      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectAirport={selectAirport} />
       
-      <TouchableOpacity onPress={()=>setModalVisible(true)}>
+      <TouchableOpacity onPress={()=>{ 
+          setModalVisible(true)
+          setIsDestination(false)
+        }
+      }>
         <Input value={searchParams.departureAirport} placeholder='Departure From (eg: KUL)' disabled={true}/>
       </TouchableOpacity>     
       
-      <Input 
-        placeholder='Destination (eg: LHR)'
-        onChangeText={text => setSearchParams({...searchParams, destinationAirport: text})}
-        disabled={true}
-      />                
+      
+      <TouchableOpacity onPress={()=>{ 
+          setModalVisible(true)
+          setIsDestination(true)
+        }
+      }>
+        <Input 
+          value={searchParams.destinationAirport}
+          placeholder='Destination (eg: LHR)'        
+          disabled={true}
+        />                
+      </TouchableOpacity>
       <Input 
         placeholder='Departure Date (YYYY/MM/DD)'
         onChangeText={text => setSearchParams({...searchParams, departureDate: text})}
