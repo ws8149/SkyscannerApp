@@ -22,6 +22,8 @@ interface Quote {
 interface SearchParams {
     departureAirport: string,
     destinationAirport: string,
+    departureAirportId: string,
+    destinationAirportId: string,
     departureDate: string,
     returnDate: string
 }
@@ -41,8 +43,10 @@ const ResultsScreen: React.FC = () => {
     useEffect(() => {
         
         let url = `/browsequotes/v1.0/MY/MYR/en-MY/`
-        url += `${searchParams.departureAirport}-sky/${searchParams.destinationAirport}-sky/`
+        url += `${searchParams.departureAirportId}-sky/${searchParams.destinationAirportId}-sky/`
         url += `${searchParams.departureDate}/${searchParams.returnDate}`
+
+        console.log(url)
 
         axios.get(url).then( res => {
                         

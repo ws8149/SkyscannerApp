@@ -55,6 +55,8 @@ const SearchScreen: React.FC = () => {
   const [searchParams, setSearchParams] = useState({
     departureAirport: '',
     destinationAirport: '',
+    departureAirportId: '',
+    destinationAirportId: '',
     departureDate: '',
     returnDate: '',
   })  
@@ -75,9 +77,9 @@ const SearchScreen: React.FC = () => {
   const selectAirport = (placeId : string, placeName : string) => {      
       setModalVisible(false)
       if (isDestination) {
-        setSearchParams({...searchParams, destinationAirport: placeName})
+        setSearchParams({...searchParams, destinationAirportId: placeId, destinationAirport: placeName})
       } else {
-        setSearchParams({...searchParams, departureAirport: placeName})
+        setSearchParams({...searchParams, departureAirportId: placeId, departureAirport: placeName})
       }      
   }
 
