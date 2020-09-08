@@ -39,7 +39,7 @@ const SwitchText = styled.Text`
 const SearchScreen: React.FC = () => {   
   const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState(false)
-  const [searchParams, setState] = useState({
+  const [searchParams, setSearchParams] = useState({
     departureAirport: '',
     destinationAirport: '',
     departureDate: '',
@@ -53,37 +53,36 @@ const SearchScreen: React.FC = () => {
   }
 
   const toggleSwitch = () => {
-    setIsOneWay(prevState => !prevState)
+    setIsOneWay(prevState => !prevState) 
+    setSearchParams({...searchParams, returnDate: ''})
   }
 
   return (
     <SearchContainer>      
       <Input         
         placeholder='Departure From (eg: KUL)' 
-        onChangeText={text => setState({...searchParams, departureAirport: text})}/>        
+        onChangeText={text => setSearchParams({...searchParams, departureAirport: text})}/>        
       <Input 
         placeholder='Destination (eg: LHR)'
-        onChangeText={text => setState({...searchParams, destinationAirport: text})}/>                
+        onChangeText={text => setSearchParams({...searchParams, destinationAirport: text})}/>                
       <Input 
         placeholder='Departure Date (YYYY/MM/DD)'
-        onChangeText={text => setState({...searchParams, departureDate: text})}/>        
+        onChangeText={text => setSearchParams({...searchParams, departureDate: text})}/>        
       { isOneWay ? <View/> : (
         <Input 
         placeholder='Return Date (YYYY/MM/DD)'
-        onChangeText={text => setState({...searchParams, returnDate: text})}/>        
+        onChangeText={text => setSearchParams({...searchParams, returnDate: text})}/>        
       )}      
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
         <Switch
-          trackColor={{ false: "white", true: "blue" }}
-          // thumbColor={isOneWay ? "#white" : "white"}
+          trackColor={{ false: "white", true: "blue" }}          
           onValueChange={toggleSwitch}
           value={isOneWay}
           
         />
       </SwitchContainer>
-      <Button title="Search" onPress={search} />
-      
+      <Button title="Search" onPress={search} />      
     </SearchContainer>
   );
 };
