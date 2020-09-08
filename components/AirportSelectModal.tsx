@@ -11,28 +11,42 @@ import {
 
 import { Overlay, SearchBar, ListItem } from 'react-native-elements';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const SelectContainer = styled.View`
     margin-top: 50px;
 `
 
-const AirportSelectModal: React.FC = ({modalVisible,setModalVisible}) => {
-    const foo = ['a','b','c','d','e','f','g','h','i','j','k','2','4','5','1','1','1','1','1','1','1'];
+const AirportSelectModal: React.FC = ({modalVisible,setModalVisible}) => {    
     const [airportData, setAirportData] = useState();
     const [searchResults, setSearchResults] = useState();
+    const [searchText, setSearchText] = useState('');
 
     const filterAirports = (text: string) => {
+        setSearchText(text)        
+        console.log(text)
+        if (text.length > 3) {
+            axios.get('/autosuggest/v1.0/MY/MYR/en-MY/', { params: {"query": text} }).then( res => {                
+                setSearchResults(res.data["Places"])
+            }).catch( err => console.log(err) )
+        }
         
     }
 
+    const selectAirport = (placeId : string) => {
+        console.log(placeId)
+    }
+
     const renderItem = ({item}) => (
-        <ListItem bottomDivider>
-            <ListItem.Content>
-                <ListItem.Title>
-                    Kuala Lumpur Airport
-                </ListItem.Title>                                      
-            </ListItem.Content>
-        </ListItem>
+        <TouchableOpacity onPress={()=>selectAirport(item['PlaceId'])}>
+            <ListItem bottomDivider>
+                <ListItem.Content>
+                    <ListItem.Title>
+                        {item['PlaceName']}
+                    </ListItem.Title>                                      
+                </ListItem.Content>
+            </ListItem>
+        </TouchableOpacity>
     )
 
 
@@ -42,14 +56,14 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible}) => {
         <Overlay isVisible={modalVisible} fullScreen={true}>
             <SelectContainer>
                 <SearchBar 
-                    placeholder="Type here.."
-                    value={''}
-                    onChangeText={text => filterAirports(text)}
+                    placeholder="Type here.."                    
+                    value={searchText}
+                    onChangeText={text => filterAirports(text)}                    
                 />
                 <FlatList
-                            keyExtractor={keyExtractor}
-                            data={foo}
-                            renderItem={renderItem}
+                    keyExtractor={keyExtractor}
+                    data={searchResults}
+                    renderItem={renderItem}
                 />
             </SelectContainer>
         </Overlay>
