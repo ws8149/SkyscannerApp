@@ -43,16 +43,16 @@ const SearchScreen: React.FC = () => {
   return (
     <SearchContainer>      
       <Input         
-        placeholder='Departure From' 
+        placeholder='Departure From (eg: KUL)' 
         onChangeText={text => setState({...searchParams, departureAirport: text})}/>        
       <Input 
-        placeholder='Destination'
+        placeholder='Destination (eg: LHR)'
         onChangeText={text => setState({...searchParams, destinationAirport: text})}/>                
       <Input 
-        placeholder='Departure Date'
+        placeholder='Departure Date (YYYY/MM/DD)'
         onChangeText={text => setState({...searchParams, departureDate: text})}/>        
       <Input 
-        placeholder='Return Date'
+        placeholder='Return Date (YYYY/MM/DD)'
         onChangeText={text => setState({...searchParams, returnDate: text})}/>        
       
       <Button title="Search" onPress={search} />

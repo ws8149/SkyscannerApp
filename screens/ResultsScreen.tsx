@@ -12,6 +12,12 @@ axios.defaults.headers.common['x-rapidapi-host'] = 'skyscanner-skyscanner-flight
 axios.defaults.headers.common['x-rapidapi-key'] = '202163265fmsh740d3936afe742bp1da78djsn1614a4f00218';
 axios.defaults.headers.common['useQueryString'] = true;
 
+interface Quote {
+    quoteId: string,
+    minPrice: number,
+    isDirect: boolean,
+    carrierName: string
+}
 
 interface SearchParams {
     departureAirport: string,
@@ -20,8 +26,15 @@ interface SearchParams {
     returnDate: string
 }
 
+const NoResultsText = styled.Text`    
+    text-align: center;
+    margin-top: 300px;    
+`
+
+
 const ResultsScreen: React.FC = () => {
-    const route = useRoute();
+    const route = useRoute();    
+    // How to typescript this ??
     const searchParams : SearchParams = route.params.searchParams;
     const [quotes, setQuotes] = useState([]);        
         
@@ -84,11 +97,16 @@ const ResultsScreen: React.FC = () => {
 
     return(
         <View>
-            <FlatList
-                keyExtractor={keyExtractor}
-                data={quotes}
-                renderItem={renderItem}
-            />
+            {
+                quotes.length > 0 ? (
+                    <FlatList
+                        keyExtractor={keyExtractor}
+                        data={quotes}
+                        renderItem={renderItem}
+                    />
+                ) : (<NoResultsText>No Results Found</NoResultsText>) 
+            }
+            
         </View>
     )
 };
