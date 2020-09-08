@@ -6,7 +6,9 @@ import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Switch, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { Calendar } from 'react-native-calendars'
 import AirportSelectModal from '../components/AirportSelectModal'
+import CalendarModal from '../components/CalendarModal'
 
 
 const SearchContainer = styled.View`
@@ -51,7 +53,9 @@ const AirportSelectText = styled.Text`
 const SearchScreen: React.FC = () => {   
   const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState(false)
-  const [isDestination, setIsDestination] = useState(false)
+  const [isDestination, setIsDestination] = useState(false)  
+  const [modalVisible, setModalVisible] = useState(false)
+  const [calendarVisible, setCalendarVisible] = useState(false)
   const [searchParams, setSearchParams] = useState({
     departureAirport: '',
     destinationAirport: '',
@@ -59,9 +63,7 @@ const SearchScreen: React.FC = () => {
     destinationAirportId: '',
     departureDate: '',
     returnDate: '',
-  })  
-
-  const [modalVisible, setModalVisible] = useState(false)
+  })    
 
   const search = () => {
     navigation.navigate('Results', {
@@ -89,7 +91,8 @@ const SearchScreen: React.FC = () => {
   return (
     <SearchContainer>      
       <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectAirport={selectAirport} />
-      
+      <CalendarModal calendarVisible={calendarVisible} setCalendarVisible={setCalendarVisible}/>      
+
       <TouchableOpacity onPress={()=>{ 
           setModalVisible(true)
           setIsDestination(false)
@@ -110,11 +113,14 @@ const SearchScreen: React.FC = () => {
           disabled={true}
         />                
       </TouchableOpacity>
-      <Input 
-        placeholder='Departure Date (YYYY/MM/DD)'
-        onChangeText={text => setSearchParams({...searchParams, departureDate: text})}
-        disabled={true}
-        />        
+
+      <TouchableOpacity onPress={()=>setCalendarVisible(true)}>
+        <Input 
+          placeholder='Departure Date (YYYY/MM/DD)'                    
+          disabled={true}
+        />
+      </TouchableOpacity>        
+
       { isOneWay ? <View/> : (
         <Input 
         placeholder='Return Date (YYYY/MM/DD)'
