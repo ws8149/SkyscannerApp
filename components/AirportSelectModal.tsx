@@ -3,13 +3,12 @@ import {
   StyleSheet,
   View,
   Text,
-  Modal,
-  Button,
+  Modal,  
   TouchableOpacity,
   FlatList
 } from 'react-native';
 
-import { Overlay, SearchBar, ListItem } from 'react-native-elements';
+import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -34,6 +33,13 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirpor
         
     }    
 
+    const handleClose = () => {
+        setModalVisible(false);
+        setSearchText('');
+        setSearchResults('');
+
+    }
+
     
     const renderItem = ({item}) => (
         <TouchableOpacity onPress={()=>{ 
@@ -57,7 +63,8 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirpor
 
     return (                
         <Overlay isVisible={modalVisible} fullScreen={true}>
-            <SelectContainer>
+            
+            <SelectContainer>                            
                 <SearchBar 
                     placeholder="Type here.."                    
                     value={searchText}
@@ -67,8 +74,9 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirpor
                     keyExtractor={keyExtractor}
                     data={searchResults}
                     renderItem={renderItem}
-                />
+                />                
             </SelectContainer>
+            <Button title="Close" onPress={handleClose} />
         </Overlay>
 
     )
@@ -76,44 +84,3 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirpor
 
 export default AirportSelectModal;
 
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        marginTop: 22,
-        backgroundColor: `rgba(0,0,0,0.6)`       
-      },
-      modalView:{        
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 15,        
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,        
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      },
-      buttonsContainer: {                
-        flexDirection: 'row',        
-        justifyContent: 'space-around',        
-        
-      },
-      buttons: {          
-          flex: 1,
-          paddingVertical: 10,          
-          backgroundColor: '#0096FA'
-      },
-      btnText: {
-        textAlign: 'center',
-        color: 'white'
-      }
-      
-})
