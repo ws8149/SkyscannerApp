@@ -1,12 +1,13 @@
 // components/Hello.tsx
 import React, {useState} from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
 import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { Switch } from 'react-native-gesture-handler';
+import { Switch, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import AirportSelectModal from '../components/AirportSelectModal'
 
 
 const SearchContainer = styled.View`
@@ -34,6 +35,18 @@ const SwitchText = styled.Text`
 `
 
 
+// Custom created text containers ( not in use )
+const AirportSelectContainer = styled.TouchableHighlight`    
+  border-bottom-width: 1px;  
+  padding: 10px;
+  margin: 10px;  
+`
+
+const AirportSelectText = styled.Text`
+  font-size: 20px;
+`
+
+
 
 
 const SearchScreen: React.FC = () => {   
@@ -46,6 +59,8 @@ const SearchScreen: React.FC = () => {
     returnDate: '',
   })  
 
+  const [modalVisible, setModalVisible] = useState(false)
+
   const search = () => {
     navigation.navigate('Results', {
         searchParams: searchParams
@@ -56,33 +71,42 @@ const SearchScreen: React.FC = () => {
     setIsOneWay(prevState => !prevState) 
     setSearchParams({...searchParams, returnDate: ''})
   }
+  
 
   return (
     <SearchContainer>      
-      <Input         
-        placeholder='Departure From (eg: KUL)' 
-        onChangeText={text => setSearchParams({...searchParams, departureAirport: text})}/>        
+      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      
+      <TouchableOpacity onPress={()=>setModalVisible(true)}>
+        <Input placeholder='Departure From (eg: KUL)' disabled={true}/>
+      </TouchableOpacity>     
+      
       <Input 
         placeholder='Destination (eg: LHR)'
-        onChangeText={text => setSearchParams({...searchParams, destinationAirport: text})}/>                
+        onChangeText={text => setSearchParams({...searchParams, destinationAirport: text})}
+        disabled={true}
+      />                
       <Input 
         placeholder='Departure Date (YYYY/MM/DD)'
-        onChangeText={text => setSearchParams({...searchParams, departureDate: text})}/>        
+        onChangeText={text => setSearchParams({...searchParams, departureDate: text})}
+        disabled={true}
+        />        
       { isOneWay ? <View/> : (
         <Input 
         placeholder='Return Date (YYYY/MM/DD)'
-        onChangeText={text => setSearchParams({...searchParams, returnDate: text})}/>        
+        onChangeText={text => setSearchParams({...searchParams, returnDate: text})}
+        disabled={true}
+      />        
       )}      
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
         <Switch
           trackColor={{ false: "white", true: "blue" }}          
           onValueChange={toggleSwitch}
-          value={isOneWay}
-          
+          value={isOneWay}          
         />
       </SwitchContainer>
-      <Button title="Search" onPress={search} />      
+      <Button title="Search" onPress={search} />            
     </SearchContainer>
   );
 };
