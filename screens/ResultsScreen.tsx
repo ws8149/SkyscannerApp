@@ -12,27 +12,28 @@ axios.defaults.headers.common['x-rapidapi-host'] = 'skyscanner-skyscanner-flight
 axios.defaults.headers.common['x-rapidapi-key'] = '202163265fmsh740d3936afe742bp1da78djsn1614a4f00218';
 axios.defaults.headers.common['useQueryString'] = true;
 
-interface Quote {
-    quoteId: string,
-    minPrice: number,
-    isDirect: boolean,
-    carrierName: string
+
+interface SearchParams {
+    departureAirport: string,
+    destinationAirport: string,
+    departureDate: string,
+    returnDate: string
 }
 
 const ResultsScreen: React.FC = () => {
     const route = useRoute();
-    const searchParams = route.params.searchParams;
-    const [quotes, setQuotes] = useState([]);
-    const [carriers, setCarriers] = useState([]);
-    
+    const searchParams : SearchParams = route.params.searchParams;
+    const [quotes, setQuotes] = useState([]);        
         
     useEffect(() => {
         
+        let url = `/browsequotes/v1.0/MY/MYR/en-MY/`
+        url += `${searchParams.departureAirport}-sky/${searchParams.destinationAirport}-sky/`
+        url += `${searchParams.departureDate}/${searchParams.returnDate}`
 
-        axios.get(`/browsequotes/v1.0/MY/MYR/en-MY/KUL-sky/LHR-sky/2020-09-25`).then( res => {
+        axios.get(url).then( res => {
                         
             let carriers = res.data['Carriers']                       
-            
             // Map carrier name to id
             let responseQuotes = res.data['Quotes']                        
 
@@ -40,8 +41,8 @@ const ResultsScreen: React.FC = () => {
                 let carrierIds = responseQuotes[i]['OutboundLeg']['CarrierIds']                
                 for (var j = 0; j < carrierIds.length; j++) {
                     let carrier = carriers.find(c => { 
-                        c['CarrierId'] === carrierIds[j]
-                    })                                    
+                        return c['CarrierId'] === carrierIds[j]
+                    })                                                 
                     carrierIds[j] = { 
                         CarrierId: carrierIds[j], 
                         CarrierName: carrier['Name'] 
@@ -57,6 +58,7 @@ const ResultsScreen: React.FC = () => {
     }, [])
 
     const formatCarrierNames = (carrierIds) => {        
+        
         let carrierNamesOutput = "";
         carrierIds.map(c => {
             carrierNamesOutput += c['CarrierName'] + " "
