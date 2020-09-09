@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, TextInput, Text, FlatList } from 'react-native';
+import { View, TextInput, Text, FlatList, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
@@ -13,9 +13,23 @@ axios.defaults.headers.common['x-rapidapi-key'] = '202163265fmsh740d3936afe742bp
 axios.defaults.headers.common['useQueryString'] = true;
 
 const NoResultsText = styled.Text`    
-    text-align: center;
-    margin-top: 300px;    
+    text-align: center;    
 `
+const LoadingView = styled.View`        
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+`
+
+const Container = styled.View`
+    flex: 1;
+    justify-content: center;
+`
+
 interface SearchParams {
     departureAirport: string,
     destinationAirport: string,
@@ -33,6 +47,7 @@ type NaviRouteProps = {
 
 const ResultsScreen: React.FC = () => {
     const route = useRoute<RouteProp<NaviRouteProps, "ResultsScreen">>();        
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const searchParams = route.params.searchParams;
     const [quotes, setQuotes] = useState([]);        
         
@@ -66,10 +81,13 @@ const ResultsScreen: React.FC = () => {
             }
             
             setQuotes(responseQuotes)
-            
+            setIsLoading(false)            
             
           })
-          .catch(err => console.log(err))                  
+          .catch(err => { 
+              console.log(err) 
+              setIsLoading(false)
+            })                  
     }, [])
 
     const formatCarrierNames = (carrierIds) => {        
@@ -97,19 +115,28 @@ const ResultsScreen: React.FC = () => {
 
     const keyExtractor = (item,index) => index.toString()
 
-    return(
-        <View>
-            {
-                quotes.length > 0 ? (
+    const renderContent = () => {
+        if (isLoading) {
+            return <ActivityIndicator/>
+        } else {
+            if (quotes.length > 0) {
+                return (
                     <FlatList
-                        keyExtractor={keyExtractor}
-                        data={quotes}
-                        renderItem={renderItem}
+                      keyExtractor={keyExtractor}
+                      data={quotes}
+                      renderItem={renderItem}
                     />
-                ) : (<NoResultsText>No Results Found</NoResultsText>) 
+                )
+            } else {
+                return <NoResultsText>No Results Found</NoResultsText>
             }
-            
-        </View>
+        }
+    }
+
+    return(
+        <Container>                        
+            {  renderContent()  }            
+        </Container>
     )
 };
 

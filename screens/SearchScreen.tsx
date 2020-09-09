@@ -205,10 +205,6 @@ const SearchScreen: React.FC = () => {
         />           
       </SwitchContainer>
 
-      <SwitchContainer>
-        <SwitchText>Browse By</SwitchText>
-        <Button title='Route'/>        
-      </SwitchContainer>
       
       <Button title="Search" onPress={search} />            
 
