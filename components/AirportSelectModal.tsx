@@ -5,7 +5,8 @@ import {
   Text,
   Modal,  
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ActivityIndicator
 } from 'react-native';
 
 import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
@@ -13,7 +14,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const SelectContainer = styled.View`
-    margin-top: 50px;
+    flex: 1;
+    margin-top: 50px;    
 `
 
 interface AirportSelectModalProps {
@@ -24,14 +26,20 @@ interface AirportSelectModalProps {
 
 const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : AirportSelectModalProps ) => {        
     const [searchResults, setSearchResults] = useState<string>();
-    const [searchText, setSearchText] = useState<string>('');         
-
+    const [searchText, setSearchText] = useState<string>('');   
+    const [isLoading, setIsLoading] = useState<boolean>(false);      
+    
     const filterAirports = (text: string) => {
         setSearchText(text)                
         if (text.length > 3) {
+            setIsLoading(true);
             axios.get('/autosuggest/v1.0/MY/MYR/en-MY/', { params: {"query": text} }).then( res => {                
                 setSearchResults(res.data["Places"])
-            }).catch( err => console.log(err) )
+                setIsLoading(false)
+            }).catch( err => { 
+                setIsLoading(false)
+                console.log(err)             
+            } )
         }
         
     }    
@@ -64,18 +72,27 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
 
     return (                
         <Overlay isVisible={modalVisible} fullScreen={true}>            
-            <View>
+            <View style={{flex:1}}>
                 <SelectContainer>                            
                     <SearchBar 
                         placeholder="Type here.."                    
                         value={searchText}
                         onChangeText={text => filterAirports(text)}                    
-                    />
-                    <FlatList
-                        keyExtractor={keyExtractor}
-                        data={searchResults}
-                        renderItem={renderItem}
-                    />                
+                    />                    
+                    
+                    { isLoading ? ( <View style={{padding:10}}>
+                                        <ActivityIndicator/>
+                                    </View>
+                                  )
+                                : (
+                                    <FlatList
+                                        keyExtractor={keyExtractor}
+                                        data={searchResults}
+                                        renderItem={renderItem}
+                                    />                               
+                                  )
+                    }
+                             
                 </SelectContainer>
                 <Button title="Close" onPress={handleClose} />
             </View>
