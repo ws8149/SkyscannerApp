@@ -8,17 +8,22 @@ const SelectContainer = styled.View`
     
 `
 
-const CalendarModal: React.FC = ({calendarVisible,setCalendarVisible}) => {        
+const CalendarModal: React.FC = ({calendarVisible,setCalendarVisible, selectDate}) => {        
     const [searchResults, setSearchResults] = useState();
     const [searchText, setSearchText] = useState('');         
     
     const handleClose = () => {
-        setCalendarVisible(false);        
+        setCalendarVisible(false);            
     }           
+
+    const handlePress = (day) => {        
+        selectDate(day.dateString)
+    }
+
     return (                
         <Overlay isVisible={calendarVisible} >            
             <SelectContainer>
-                <Calendar/>
+                <Calendar onDayPress={(day)=>handlePress(day)}/>
                 <Button title="Close" onPress={handleClose} />
             </SelectContainer>
         </Overlay>

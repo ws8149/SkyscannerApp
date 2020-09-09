@@ -43,7 +43,7 @@ const ResultsScreen: React.FC = () => {
     useEffect(() => {
         
         let url = `/browsequotes/v1.0/MY/MYR/en-MY/`
-        url += `${searchParams.departureAirportId}-sky/${searchParams.destinationAirportId}-sky/`
+        url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}/${searchParams.returnDate}`
 
         console.log(url)
@@ -52,7 +52,9 @@ const ResultsScreen: React.FC = () => {
                         
             let carriers = res.data['Carriers']                       
             // Map carrier name to id
-            let responseQuotes = res.data['Quotes']                        
+            let responseQuotes = res.data['Quotes']      
+            
+            console.log(res.data)
 
             for (var i = 0; i < responseQuotes.length; i++) {
                 let carrierIds = responseQuotes[i]['OutboundLeg']['CarrierIds']                

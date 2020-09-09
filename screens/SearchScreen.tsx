@@ -6,7 +6,6 @@ import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Switch, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
-import { Calendar } from 'react-native-calendars'
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
@@ -51,10 +50,15 @@ const AirportSelectText = styled.Text`
 
 
 const SearchScreen: React.FC = () => {   
-  const navigation = useNavigation();
+  const navigation = useNavigation();      
   const [isOneWay, setIsOneWay] = useState(false)
-  const [isDestination, setIsDestination] = useState(false)  
-  const [modalVisible, setModalVisible] = useState(false)
+  
+  // If user pressed on destination field  
+  const [isDestination, setIsDestination] = useState(false)   
+  // If user pressed on return date field
+  const [isReturnDate, setIsReturnDate] = useState(false)   
+
+  const [modalVisible, setModalVisible] = useState(false)  
   const [calendarVisible, setCalendarVisible] = useState(false)
   const [searchParams, setSearchParams] = useState({
     departureAirport: '',
@@ -85,13 +89,22 @@ const SearchScreen: React.FC = () => {
       }      
   }
 
+  const selectDate = (date : string) => {      
+    setCalendarVisible(false)
+    if (isReturnDate) {
+      setSearchParams({...searchParams, returnDate: date})
+    } else {
+      setSearchParams({...searchParams, departureDate: date})
+    }      
+}
+
   
   
 
   return (
     <SearchContainer>      
       <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectAirport={selectAirport} />
-      <CalendarModal calendarVisible={calendarVisible} setCalendarVisible={setCalendarVisible}/>      
+      <CalendarModal calendarVisible={calendarVisible} setCalendarVisible={setCalendarVisible} selectDate={selectDate}/>      
 
       <TouchableOpacity onPress={()=>{ 
           setModalVisible(true)
@@ -114,20 +127,30 @@ const SearchScreen: React.FC = () => {
         />                
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={()=>setCalendarVisible(true)}>
+      <TouchableOpacity onPress={()=>{
+          setCalendarVisible(true)
+          setIsReturnDate(false)
+        }}>
         <Input 
-          placeholder='Departure Date (YYYY/MM/DD)'                    
+          value={searchParams.departureDate}
+          placeholder='Departure Date (YYYY/MM/DD)'                              
           disabled={true}
         />
       </TouchableOpacity>        
 
       { isOneWay ? <View/> : (
-        <Input 
-        placeholder='Return Date (YYYY/MM/DD)'
-        onChangeText={text => setSearchParams({...searchParams, returnDate: text})}
-        disabled={true}
-      />        
+        <TouchableOpacity onPress={()=>{
+          setCalendarVisible(true)
+          setIsReturnDate(true)
+        }}>
+          <Input 
+            value={searchParams.returnDate}
+            placeholder='Return Date (YYYY/MM/DD)'        
+            disabled={true}
+          />
+        </TouchableOpacity>        
       )}      
+
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
         <Switch
