@@ -6,6 +6,7 @@ import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Switch, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { Picker } from '@react-native-community/picker';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
@@ -46,21 +47,28 @@ const AirportSelectText = styled.Text`
   font-size: 20px;
 `
 
-
+interface SearchParams {
+  departureAirport: string,
+  destinationAirport: string,
+  departureAirportId: string,
+  destinationAirportId: string,
+  departureDate: string,
+  returnDate: string,
+}
 
 
 const SearchScreen: React.FC = () => {   
   const navigation = useNavigation();      
-  const [isOneWay, setIsOneWay] = useState(false)
+  const [isOneWay, setIsOneWay] = useState<boolean>(false)
   
   // If user pressed on destination field  
-  const [isDestination, setIsDestination] = useState(false)   
+  const [isDestination, setIsDestination] = useState<boolean>(false)   
   // If user pressed on return date field
-  const [isReturnDate, setIsReturnDate] = useState(false)   
+  const [isReturnDate, setIsReturnDate] = useState<boolean>(false)   
 
-  const [modalVisible, setModalVisible] = useState(false)  
-  const [calendarVisible, setCalendarVisible] = useState(false)
-  const [searchParams, setSearchParams] = useState({
+  const [modalVisible, setModalVisible] = useState<boolean>(false)  
+  const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
+  const [searchParams, setSearchParams] = useState<SearchParams>({
     departureAirport: '',
     destinationAirport: '',
     departureAirportId: '',
@@ -129,21 +137,19 @@ const SearchScreen: React.FC = () => {
          
   }
 
-  function getCurrentDate() {
-    var d = new Date();
-    var dateString =  d.getUTCFullYear() + "-" +
-                    ("0" + (d.getUTCMonth()+1)).slice(-2) + "-" +
-                    ("0" + d.getUTCDate()).slice(-2);       
-    return dateString;    
-  }
-
-  
   
 
   return (
     <SearchContainer>      
-      <AirportSelectModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectAirport={selectAirport} />
-      <CalendarModal calendarVisible={calendarVisible} setCalendarVisible={setCalendarVisible} selectDate={selectDate}/>      
+      <AirportSelectModal 
+        modalVisible={modalVisible} 
+        setModalVisible={setModalVisible} 
+        selectAirport={selectAirport} />
+      
+      <CalendarModal 
+        calendarVisible={calendarVisible} 
+        setCalendarVisible={setCalendarVisible} 
+        selectDate={selectDate}/>      
 
       <TouchableOpacity onPress={()=>{ 
           setModalVisible(true)
@@ -196,9 +202,16 @@ const SearchScreen: React.FC = () => {
           trackColor={{ false: "white", true: "blue" }}          
           onValueChange={toggleSwitch}
           value={isOneWay}          
-        />
+        />           
       </SwitchContainer>
+
+      <SwitchContainer>
+        <SwitchText>Browse By</SwitchText>
+        <Button title='Route'/>        
+      </SwitchContainer>
+      
       <Button title="Search" onPress={search} />            
+
     </SearchContainer>
   );
 };

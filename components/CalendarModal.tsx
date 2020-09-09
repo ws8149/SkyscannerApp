@@ -8,9 +8,13 @@ const SelectContainer = styled.View`
     
 `
 
-const CalendarModal: React.FC = ({calendarVisible,setCalendarVisible, selectDate}) => {        
-    const [searchResults, setSearchResults] = useState();
-    const [searchText, setSearchText] = useState('');         
+interface CalendarModalProps {
+    calendarVisible: boolean;
+    setCalendarVisible: (calendarVisible : boolean) => void
+    selectDate: (date : string) => void
+}
+
+const CalendarModal = ( {calendarVisible,setCalendarVisible, selectDate} : CalendarModalProps) => {                    
     
     const handleClose = () => {
         setCalendarVisible(false);            

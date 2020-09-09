@@ -16,13 +16,18 @@ const SelectContainer = styled.View`
     margin-top: 50px;
 `
 
-const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirport}) => {        
-    const [searchResults, setSearchResults] = useState();
-    const [searchText, setSearchText] = useState('');         
+interface AirportSelectModalProps {
+    modalVisible : boolean;
+    setModalVisible : (modalVisible : boolean) => void;
+    selectAirport : () => void;
+}
+
+const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : AirportSelectModalProps ) => {        
+    const [searchResults, setSearchResults] = useState<string>();
+    const [searchText, setSearchText] = useState<string>('');         
 
     const filterAirports = (text: string) => {
-        setSearchText(text)        
-        console.log(text)
+        setSearchText(text)                
         if (text.length > 3) {
             axios.get('/autosuggest/v1.0/MY/MYR/en-MY/', { params: {"query": text} }).then( res => {                
                 setSearchResults(res.data["Places"])

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, TextInput, Text, FlatList } from 'react-native';
 import styled from 'styled-components/native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
 import { ListItem } from 'react-native-elements';
 
@@ -12,32 +12,28 @@ axios.defaults.headers.common['x-rapidapi-host'] = 'skyscanner-skyscanner-flight
 axios.defaults.headers.common['x-rapidapi-key'] = '202163265fmsh740d3936afe742bp1da78djsn1614a4f00218';
 axios.defaults.headers.common['useQueryString'] = true;
 
-interface Quote {
-    quoteId: string,
-    minPrice: number,
-    isDirect: boolean,
-    carrierName: string
-}
-
+const NoResultsText = styled.Text`    
+    text-align: center;
+    margin-top: 300px;    
+`
 interface SearchParams {
     departureAirport: string,
     destinationAirport: string,
     departureAirportId: string,
     destinationAirportId: string,
     departureDate: string,
-    returnDate: string
+    returnDate: string,
 }
 
-const NoResultsText = styled.Text`    
-    text-align: center;
-    margin-top: 300px;    
-`
-
+type NaviRouteProps = {
+    ResultsScreen: {
+        searchParams: SearchParams
+    }
+}
 
 const ResultsScreen: React.FC = () => {
-    const route = useRoute();    
-    // How to typescript this ??
-    const searchParams : SearchParams = route.params.searchParams;
+    const route = useRoute<RouteProp<NaviRouteProps, "ResultsScreen">>();        
+    const searchParams = route.params.searchParams;
     const [quotes, setQuotes] = useState([]);        
         
     useEffect(() => {
