@@ -35,18 +35,6 @@ const SwitchText = styled.Text`
   font-size: 18px;
 `
 
-
-// Custom created text containers ( not in use )
-const AirportSelectContainer = styled.TouchableHighlight`    
-  border-bottom-width: 1px;  
-  padding: 10px;
-  margin: 10px;  
-`
-
-const AirportSelectText = styled.Text`
-  font-size: 20px;
-`
-
 interface SearchParams {
   departureAirport: string,
   destinationAirport: string,
@@ -54,6 +42,7 @@ interface SearchParams {
   destinationAirportId: string,
   departureDate: string,
   returnDate: string,
+  searchType: string
 }
 
 
@@ -75,6 +64,7 @@ const SearchScreen: React.FC = () => {
     destinationAirportId: '',
     departureDate: '',
     returnDate: '',
+    searchType: 'browsequotes'
   })    
 
   const search = () => {

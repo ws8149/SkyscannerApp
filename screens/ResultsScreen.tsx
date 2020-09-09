@@ -15,15 +15,6 @@ axios.defaults.headers.common['useQueryString'] = true;
 const NoResultsText = styled.Text`    
     text-align: center;    
 `
-const LoadingView = styled.View`        
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
-`
 
 const Container = styled.View`
     flex: 1;
@@ -37,6 +28,7 @@ interface SearchParams {
     destinationAirportId: string,
     departureDate: string,
     returnDate: string,
+    searchType: string,
 }
 
 type NaviRouteProps = {
@@ -53,7 +45,7 @@ const ResultsScreen: React.FC = () => {
         
     useEffect(() => {
         
-        let url = `/browsequotes/v1.0/MY/MYR/en-MY/`
+        let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}`
 
