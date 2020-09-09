@@ -49,7 +49,8 @@ const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlights
     }       
 
     const handleSortBoxCheck = () => {
-
+        setPriceBoxChecked(true);
+        sortByPrice();
     }
 
     const handleAllFlightsCheck = () => {

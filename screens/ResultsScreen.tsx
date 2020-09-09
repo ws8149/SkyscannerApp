@@ -43,7 +43,7 @@ const ResultsScreen: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [sortFilterVisible, setSortFilterVisible] = useState<boolean>(false);
     const searchParams = route.params.searchParams;
-    const [quotes, setQuotes] = useState([]);       
+    const [quotes, setQuotes] = useState([]);           
     
     const makeRequestToApi = () => {
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
@@ -101,6 +101,10 @@ const ResultsScreen: React.FC = () => {
         makeRequestToApi();         
     }
 
+    const sortByPrice = () => {
+        console.log(quotes)
+    }
+
     const renderItem = ({item}) => (
         <ListItem bottomDivider>
             <ListItem.Content>
@@ -143,7 +147,9 @@ const ResultsScreen: React.FC = () => {
             <SortFilterModal 
                 sortFilterVisible={sortFilterVisible} 
                 setSortFilterVisible={setSortFilterVisible} 
-                showAllFlightsThisMonth={showAllFlightsThisMonth} />
+                showAllFlightsThisMonth={showAllFlightsThisMonth}
+                sortByPrice={sortByPrice}                
+            />
             <Button title='Sort and Filter' onPress={()=>setSortFilterVisible(true)} />
             {  renderContent()  }            
         </Container>
