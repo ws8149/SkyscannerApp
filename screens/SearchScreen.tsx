@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
 import { Text } from 'react-native-elements';
@@ -89,14 +89,53 @@ const SearchScreen: React.FC = () => {
       }      
   }
 
-  const selectDate = (date : string) => {      
-    setCalendarVisible(false)
-    if (isReturnDate) {
-      setSearchParams({...searchParams, returnDate: date})
-    } else {
-      setSearchParams({...searchParams, departureDate: date})
-    }      
-}
+  const dateIsValid = (date: string) => {
+    var selectedDate = new Date(date);
+    var currentDate = new Date();    
+    var departureDate = new Date('');
+    currentDate.setHours(0,0,0,0)
+
+    console.log(currentDate)
+    console.log(selectedDate)
+    
+    if (currentDate > selectedDate) {      
+      return false
+    } 
+
+    if (isReturnDate && searchParams.departureDate !== '') {
+      // if user selected a return date and departure date is not empty
+      var departureDate = new Date(searchParams.departureDate);
+      if (departureDate > selectedDate) {         
+        return false
+      }
+    } 
+    
+    return true
+    
+  }
+ 
+  const selectDate = (date : string) => {           
+    if (dateIsValid(date)) {
+      setCalendarVisible(false)
+      if (isReturnDate) {            
+        setSearchParams({...searchParams, returnDate: date})
+      } else {
+        setSearchParams({...searchParams, departureDate: date})
+      }       
+    } else {      
+      Alert.alert('Invalid return date')
+    }
+    
+         
+  }
+
+  function getCurrentDate() {
+    var d = new Date();
+    var dateString =  d.getUTCFullYear() + "-" +
+                    ("0" + (d.getUTCMonth()+1)).slice(-2) + "-" +
+                    ("0" + d.getUTCDate()).slice(-2);       
+    return dateString;    
+  }
 
   
   
