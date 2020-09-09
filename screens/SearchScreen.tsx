@@ -193,8 +193,7 @@ const SearchScreen: React.FC = () => {
           onValueChange={toggleSwitch}
           value={isOneWay}          
         />           
-      </SwitchContainer>
-
+      </SwitchContainer>       
       
       <Button title="Search" onPress={search} />            
 

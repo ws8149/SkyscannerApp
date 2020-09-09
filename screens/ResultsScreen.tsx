@@ -3,7 +3,8 @@ import { View, TextInput, Text, FlatList, ActivityIndicator } from 'react-native
 import styled from 'styled-components/native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Button} from 'react-native-elements';
+import SortFilterModal from '../components/SortFilterModal'
 
 
 // Set up axios
@@ -104,10 +105,13 @@ const ResultsScreen: React.FC = () => {
         </ListItem>
     )
 
+    
+
 
     const keyExtractor = (item,index) => index.toString()
 
     const renderContent = () => {
+        
         if (isLoading) {
             return <ActivityIndicator/>
         } else {
@@ -127,6 +131,8 @@ const ResultsScreen: React.FC = () => {
 
     return(
         <Container>                        
+            <SortFilterModal/>
+            <Button title='Sort and Filter' />
             {  renderContent()  }            
         </Container>
     )
