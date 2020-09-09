@@ -41,11 +41,11 @@ type NaviRouteProps = {
 const ResultsScreen: React.FC = () => {
     const route = useRoute<RouteProp<NaviRouteProps, "ResultsScreen">>();        
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [sortFilterVisible, setSortFilterVisible] = useState<boolean>(false);
     const searchParams = route.params.searchParams;
-    const [quotes, setQuotes] = useState([]);        
-        
-    useEffect(() => {
-        
+    const [quotes, setQuotes] = useState([]);       
+    
+    const makeRequestToApi = () => {
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}`
@@ -81,6 +81,10 @@ const ResultsScreen: React.FC = () => {
               console.log(err) 
               setIsLoading(false)
             })                  
+    }
+        
+    useEffect(() => {        
+        makeRequestToApi();
     }, [])
 
     const formatCarrierNames = (carrierIds) => {        
@@ -90,6 +94,11 @@ const ResultsScreen: React.FC = () => {
             carrierNamesOutput += c['CarrierName'] + " "
         })
         return carrierNamesOutput;
+    }
+
+    const showAllFlightsThisMonth = () => {
+        searchParams.departureDate = searchParams.departureDate.substring(0,7);
+        makeRequestToApi();         
     }
 
     const renderItem = ({item}) => (
@@ -131,8 +140,11 @@ const ResultsScreen: React.FC = () => {
 
     return(
         <Container>                        
-            <SortFilterModal/>
-            <Button title='Sort and Filter' />
+            <SortFilterModal 
+                sortFilterVisible={sortFilterVisible} 
+                setSortFilterVisible={setSortFilterVisible} 
+                showAllFlightsThisMonth={showAllFlightsThisMonth} />
+            <Button title='Sort and Filter' onPress={()=>setSortFilterVisible(true)} />
             {  renderContent()  }            
         </Container>
     )

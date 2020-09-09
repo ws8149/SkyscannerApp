@@ -31,30 +31,40 @@ const SortFilterText = styled.Text`
 
 
 interface SortFilterModalProps {
-    modalVisible : boolean;
-    setModalVisible : (modalVisible : boolean) => void;
+    sortFilterVisible : boolean;
+    setSortFilterVisible : (sortFilterVisible : boolean) => void;
+    showAllFlightsThisMonth : () => void;
     sortByPrice : () => void;
     sortByDate : () => void;
 }
 
-const SortFilterModal = ({modalVisible,setModalVisible, sortByDate, sortByPrice} : SortFilterModalProps ) => {            
+const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlightsThisMonth, sortByDate, sortByPrice} : SortFilterModalProps ) => {            
 
     const [allFlightsChecked, setAllFlightsChecked] = useState<boolean>(false);
     const [dateBoxChecked, setDateBoxChecked] = useState<boolean>(false);
     const [priceBoxChecked, setPriceBoxChecked] = useState<boolean>(false);
 
     const handleClose = () => {
-        setModalVisible(false);                
+        setSortFilterVisible(false);                
     }       
 
+    const handleSortBoxCheck = () => {
+
+    }
+
+    const handleAllFlightsCheck = () => {
+        setAllFlightsChecked(prevState => !prevState);              
+        showAllFlightsThisMonth();
+    }
+
     return (                
-        <Overlay isVisible={true} >            
+        <Overlay isVisible={sortFilterVisible} >            
             <View>                 
                 <SortFilterText>Show all flights this month</SortFilterText>
-                <CheckBox title='Yes' checked={allFlightsChecked} />
-                <SortFilterText>Sort By</SortFilterText>
+                <CheckBox title='Yes' checked={allFlightsChecked} onPress={handleAllFlightsCheck} />
+                <SortFilterText>Sort by</SortFilterText>
                 <CheckBox title='Date' checked={dateBoxChecked}/>
-                <CheckBox title='Price' checked={priceBoxChecked} />
+                <CheckBox title='Price' checked={priceBoxChecked} onPress={handleSortBoxCheck} />
 
                 <Button title="Close" onPress={handleClose} />
             </View>
