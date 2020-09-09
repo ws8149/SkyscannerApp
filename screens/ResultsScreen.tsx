@@ -44,11 +44,11 @@ const ResultsScreen: React.FC = () => {
         
         let url = `/browsequotes/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
-        url += `${searchParams.departureDate}/${searchParams.returnDate}`
+        url += `${searchParams.departureDate}`
 
         console.log(url)
 
-        axios.get(url).then( res => {
+        axios.get(url, { params: {"inboundpartialdate": searchParams.returnDate} }).then( res => {
                         
             let carriers = res.data['Carriers']                       
             // Map carrier name to id

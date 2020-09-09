@@ -58,21 +58,22 @@ const AirportSelectModal: React.FC = ({modalVisible,setModalVisible,selectAirpor
     const keyExtractor = (item,index) => index.toString()
 
     return (                
-        <Overlay isVisible={modalVisible} fullScreen={true}>
-            
-            <SelectContainer>                            
-                <SearchBar 
-                    placeholder="Type here.."                    
-                    value={searchText}
-                    onChangeText={text => filterAirports(text)}                    
-                />
-                <FlatList
-                    keyExtractor={keyExtractor}
-                    data={searchResults}
-                    renderItem={renderItem}
-                />                
-            </SelectContainer>
-            <Button title="Close" onPress={handleClose} />
+        <Overlay isVisible={modalVisible} fullScreen={true}>            
+            <View>
+                <SelectContainer>                            
+                    <SearchBar 
+                        placeholder="Type here.."                    
+                        value={searchText}
+                        onChangeText={text => filterAirports(text)}                    
+                    />
+                    <FlatList
+                        keyExtractor={keyExtractor}
+                        data={searchResults}
+                        renderItem={renderItem}
+                    />                
+                </SelectContainer>
+                <Button title="Close" onPress={handleClose} />
+            </View>
         </Overlay>
 
     )
