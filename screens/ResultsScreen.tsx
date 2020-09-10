@@ -145,27 +145,7 @@ const ResultsScreen: React.FC = () => {
                     </ListItem.Title>
                 </View>            
             </View>
-        </Card>
-
-     
-        // <ListItem bottomDivider>
-        //     <ListItem.Content>                                                
-        //         <View>
-        //             <ListItem.Title>                    
-        //                 { formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
-        //             </ListItem.Title>                                
-        //             <ListItem.Title>{"  RM "+ item['MinPrice']}</ListItem.Title>                              
-        //         </View>                
-        //         <ListItem.Title>
-        //             {"  Date: " + item['OutboundLeg']['DepartureDate'].substring(0,10)}
-        //         </ListItem.Title>                  
-                
-        //         <ListItem.Title>{"  Direct: " + item['Direct']}</ListItem.Title>  
-                
-        //     </ListItem.Content>
-        // </ListItem>         
-     
-        
+        </Card>            
     )
 
     

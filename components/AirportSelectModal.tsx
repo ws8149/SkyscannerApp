@@ -77,7 +77,7 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
                 <SelectContainer>                            
                     <SearchBar 
                         placeholder="Type here.."                    
-                        value={searchText}
+                        value={searchText}                        
                         onChangeText={text => filterAirports(text)}                    
                     />                    
                     
@@ -90,6 +90,7 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
                                         keyExtractor={keyExtractor}
                                         data={searchResults}
                                         renderItem={renderItem}
+                                        keyboardShouldPersistTaps='handled'
                                     />                               
                                   )
                     }
