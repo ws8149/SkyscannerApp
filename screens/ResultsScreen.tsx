@@ -46,22 +46,21 @@ const ResultsScreen: React.FC = () => {
     const [quotes, setQuotes] = useState([]);           
     // In case user requested for all flights this month but would like
     // to go back to their original results
-    const [prevQuotes, setPrevQuotes] = useState([]);           
+    const [prevDate, setPrevDate] = useState<string>('');           
     
     const makeRequestToApi = () => {
+        console.log("making request...")
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}`
-
-        console.log(url)
+        
 
         axios.get(url, { params: {"inboundpartialdate": searchParams.returnDate} }).then( res => {
                         
             let carriers = res.data['Carriers']                       
             // Map carrier name to id
-            let responseQuotes = res.data['Quotes']      
+            let responseQuotes = res.data['Quotes']                 
             
-            console.log(res.data)
 
             for (var i = 0; i < responseQuotes.length; i++) {
                 let carrierIds = responseQuotes[i]['OutboundLeg']['CarrierIds']                
@@ -86,7 +85,7 @@ const ResultsScreen: React.FC = () => {
             })                  
     }
         
-    useEffect(() => {        
+    useEffect(() => {                        
         makeRequestToApi();
     }, [])
 
@@ -101,11 +100,12 @@ const ResultsScreen: React.FC = () => {
 
     const showAllFlightsThisMonth = (allFlightsChecked : boolean) => {
         if (allFlightsChecked) {
-            setPrevQuotes(quotes);
+            setPrevDate(searchParams.departureDate)
             searchParams.departureDate = searchParams.departureDate.substring(0,7);
             makeRequestToApi();                     
         } else {
-            setQuotes(prevQuotes)
+            searchParams.departureDate = prevDate;
+            makeRequestToApi();                     
         }
         
     }
