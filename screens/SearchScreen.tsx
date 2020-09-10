@@ -43,10 +43,19 @@ const SearchScreen: React.FC = () => {
   })      
 
   const search = () => {
-    console.log(searchParams)
-    navigation.navigate('Results', {
+    let isValidForSearch = true;
+    if (searchParams.departureAirport === '') { isValidForSearch = false }
+    if (searchParams.destinationAirport === '') { isValidForSearch = false }
+    if (searchParams.departureDate === '') { isValidForSearch = false }
+    
+    if (isValidForSearch) {
+      navigation.navigate('Results', {
         searchParams: searchParams
-    })
+      })
+    } else {
+      Alert.alert('Please ensure fields are valid')
+    }
+    
   }
 
   const toggleSwitch = () => {
