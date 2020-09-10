@@ -38,12 +38,42 @@ type NaviRouteProps = {
     }
 }
 
+
+
 const ResultsScreen: React.FC = () => {
     const route = useRoute<RouteProp<NaviRouteProps, "ResultsScreen">>();        
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [sortFilterVisible, setSortFilterVisible] = useState<boolean>(false);
     const searchParams = route.params.searchParams;
-    const [quotes, setQuotes] = useState([]);               
+    const [quotes, setQuotes] = useState([]);       
+    
+    //////////////////////////// Helper Functions Start ////////////////////////////////////
+    const formatCarrierNames = (carrierIds) => {        
+        
+        let carrierNamesOutput = "";
+        carrierIds.map(c => {
+            carrierNamesOutput += c['CarrierName'] + " "
+        })
+        return carrierNamesOutput;
+    }
+
+    const sort_by_key = (array, key) => {
+        return array.sort(function(a, b)
+        {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+    }
+
+    // Temporarily set departure date to only include the month
+    const requestQuotesByMonth = () => {        
+        let prevDate = searchParams.departureDate;
+        searchParams.departureDate = searchParams.departureDate.substring(0,7);
+        makeRequestToApi();                     
+        searchParams.departureDate = prevDate;
+    }
+
+     //////////////////////////// Helper Functions End ////////////////////////////////////
     
     const makeRequestToApi = () => {
         console.log("making request...")
@@ -84,41 +114,24 @@ const ResultsScreen: React.FC = () => {
         
     useEffect(() => {                        
         makeRequestToApi();
-    }, [])
-
-    const formatCarrierNames = (carrierIds) => {        
-        
-        let carrierNamesOutput = "";
-        carrierIds.map(c => {
-            carrierNamesOutput += c['CarrierName'] + " "
-        })
-        return carrierNamesOutput;
-    }
+    }, [])    
 
     const showAllFlightsThisMonth = (allFlightsChecked : boolean) => {
-        if (allFlightsChecked) {
-            // Temporarily set departure date to only include the month
-            let prevDate = searchParams.departureDate;
-            searchParams.departureDate = searchParams.departureDate.substring(0,7);
-            makeRequestToApi();                     
-            searchParams.departureDate = prevDate;
+        if (allFlightsChecked) {            
+            requestQuotesByMonth();
         } else {                        
             makeRequestToApi();                     
-        }
-        
-    }
-    function sort_by_key(array, key) {
-        return array.sort(function(a, b)
-        {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-        });
-    }
+        }        
+    }    
 
-    const sortByPrice = () => {        
-        
+    const sortByPrice = () => {                
         let sortedQuotes = sort_by_key(quotes, 'MinPrice')
         setQuotes(sortedQuotes);
+    }
+
+    // Since response is already sorted by date, we make a request again
+    const sortByDate = () => {                
+        requestQuotesByMonth();
     }
 
     const renderItem = ({item}) => (
@@ -128,8 +141,11 @@ const ResultsScreen: React.FC = () => {
                     {/* TODO: format for inboundleg as well */}
                     {formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
                 </ListItem.Title>                
-                <ListItem.Subtitle>{"Minimum Price: RM"+ item['MinPrice']}</ListItem.Subtitle>
-                <ListItem.Subtitle>{"Direct: " + item['Direct']}</ListItem.Subtitle>                
+                <ListItem.Subtitle>{"Minimum Price: RM"+ item['MinPrice']}</ListItem.Subtitle>                              
+                <ListItem.Subtitle>
+                    {"Date: " + item['OutboundLeg']['DepartureDate'].substring(0,10)}
+                </ListItem.Subtitle>  
+                <ListItem.Subtitle>{"Direct: " + item['Direct']}</ListItem.Subtitle>  
             </ListItem.Content>
         </ListItem>
     )
@@ -164,7 +180,8 @@ const ResultsScreen: React.FC = () => {
                 sortFilterVisible={sortFilterVisible} 
                 setSortFilterVisible={setSortFilterVisible} 
                 showAllFlightsThisMonth={showAllFlightsThisMonth}
-                sortByPrice={sortByPrice}                
+                sortByPrice={sortByPrice}    
+                sortByDate={sortByDate}            
             />
             <Button title='Sort and Filter' onPress={()=>setSortFilterVisible(true)} />
             {  renderContent()  }            

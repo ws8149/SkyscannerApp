@@ -48,14 +48,24 @@ const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlights
         setSortFilterVisible(false);                
     }       
 
-    const handleSortBoxCheck = () => {
-        setPriceBoxChecked(true);
-        sortByPrice();
+    const handleDateBoxCheck = () => {        
+        setDateBoxChecked(!dateBoxChecked)
+        if (priceBoxChecked) { setPriceBoxChecked(false)}
+        sortByDate();
     }
 
-    const handleAllFlightsCheck = () => {
+    const handlePriceBoxCheck = () => {
+        setPriceBoxChecked(!priceBoxChecked)
+        if (dateBoxChecked) { setDateBoxChecked(false) }
+        sortByPrice();
+    }
+    
+
+    const handleAllFlightsCheck = () => {        
         setAllFlightsChecked(!allFlightsChecked);              
         showAllFlightsThisMonth(!allFlightsChecked);
+        setPriceBoxChecked(false);
+        setDateBoxChecked(false);
     }
 
     return (                
@@ -64,8 +74,8 @@ const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlights
                 <SortFilterText>Show all flights this month</SortFilterText>
                 <CheckBox title='Yes' checked={allFlightsChecked} onPress={handleAllFlightsCheck} />
                 <SortFilterText>Sort by</SortFilterText>
-                <CheckBox title='Date' checked={dateBoxChecked}/>
-                <CheckBox title='Price' checked={priceBoxChecked} onPress={handleSortBoxCheck} />
+                <CheckBox title='Date' checked={dateBoxChecked} onPress={handleDateBoxCheck}/>
+                <CheckBox title='Price' checked={priceBoxChecked} onPress={handlePriceBoxCheck} />
 
                 <Button title="Close" onPress={handleClose} />
             </View>
