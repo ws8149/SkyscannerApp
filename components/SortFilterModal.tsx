@@ -10,6 +10,7 @@ import {
 
 import { Button, Overlay, CheckBox } from 'react-native-elements';
 import styled from 'styled-components';
+import { PrimaryButton } from '../styles/index'
 
 const SelectContainer = styled.View`    
     margin-top: 50px;    
@@ -77,7 +78,7 @@ const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlights
                 <CheckBox title='Date' checked={dateBoxChecked} onPress={handleDateBoxCheck}/>
                 <CheckBox title='Price' checked={priceBoxChecked} onPress={handlePriceBoxCheck} />
 
-                <Button title="Close" onPress={handleClose} />
+                <PrimaryButton title="Close" onPress={handleClose} />
             </View>
         </Overlay>
 

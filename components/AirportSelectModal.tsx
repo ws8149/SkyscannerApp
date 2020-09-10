@@ -12,6 +12,7 @@ import {
 import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
 import styled from 'styled-components';
 import axios from 'axios';
+import { PrimaryButton } from '../styles/index'
 
 const SelectContainer = styled.View`
     flex: 1;
@@ -94,7 +95,8 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
                     }
                              
                 </SelectContainer>
-                <Button title="Close" onPress={handleClose} />
+                <PrimaryButton title="Close" onPress={handleClose} />
+                
             </View>
         </Overlay>
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import {Button} from 'react-native-elements'
 
 export const SearchContainer = styled.View`
   flex: 1;   
@@ -26,6 +27,11 @@ export const NoResultsText = styled.Text`
 
 export const Container = styled.View`
     flex: 1;
-    justify-content: center;
-`
+    justify-content: center;`
 
+
+export const PrimaryButton = styled(Button).attrs({  
+  containerStyle: { margin: 2}  ,
+  buttonStyle: { backgroundColor: "black" },
+  raised: true  
+})``;

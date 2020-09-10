@@ -3,7 +3,7 @@ import { Calendar } from 'react-native-calendars'
 import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
 import { View } from 'react-native';
 import styled from 'styled-components';
-
+import { PrimaryButton } from '../styles/index'
 
 
 
@@ -27,7 +27,7 @@ const CalendarModal = ( {calendarVisible,setCalendarVisible, selectDate} : Calen
         <Overlay isVisible={calendarVisible} >            
             <View>
                 <Calendar onDayPress={(day)=>handlePress(day)}/>
-                <Button title="Close" onPress={handleClose} />
+                <PrimaryButton title="Close" onPress={handleClose} />
             </View>
         </Overlay>
 

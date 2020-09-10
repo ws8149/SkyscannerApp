@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ListItem, Button} from 'react-native-elements';
 import SortFilterModal from '../components/SortFilterModal'
 import {  NoResultsText, Container } from '../styles/index'
+import { PrimaryButton } from '../styles/index'
 
 // Set up axios
 axios.defaults.baseURL = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices"
@@ -176,7 +177,7 @@ const ResultsScreen: React.FC = () => {
                 sortByPrice={sortByPrice}    
                 sortByDate={sortByDate}            
             />
-            <Button title='Sort and Filter' onPress={()=>setSortFilterVisible(true)} />
+            <PrimaryButton title='Sort and Filter' onPress={()=>setSortFilterVisible(true)} />
             {  renderContent()  }            
         </Container>
     )

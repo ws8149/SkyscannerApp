@@ -8,7 +8,7 @@ import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
 import { SearchContainer, SwitchContainer, 
-        TitleText, SwitchText } from '../styles/index'
+        TitleText, SwitchText, PrimaryButton } from '../styles/index'
 
 interface SearchParams {
   departureAirport: string,
@@ -167,14 +167,9 @@ const SearchScreen: React.FC = () => {
           onValueChange={toggleSwitch}
           value={isOneWay}          
         />           
-      </SwitchContainer>       
-      
-      <Button 
-        title="Search" 
-        containerStyle={{margin: 2}} 
-        buttonStyle={{backgroundColor: "black"}}
-        raised={true}        
-        onPress={search} />            
+      </SwitchContainer>                  
+
+      <PrimaryButton title="Search" onPress={search} />          
 
     </SearchContainer>
   );
