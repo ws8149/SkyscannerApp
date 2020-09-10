@@ -72,39 +72,45 @@ const SearchScreen: React.FC = () => {
       }      
   }
 
-  const dateIsValid = (date: string) => {
-    var selectedDate = new Date(date);
-    var currentDate = new Date();    
-    var departureDate = new Date('');
-    currentDate.setHours(0,0,0,0)
+  // const dateIsValid = (date: string) => {
+  //   var selectedDate = new Date(date);
+  //   var currentDate = new Date();    
+  //   var departureDate = new Date('');
+  //   currentDate.setHours(0,0,0,0)
     
-    if (currentDate > selectedDate) {      
-      return false
-    } 
+  //   if (currentDate > selectedDate) {      
+  //     return false
+  //   } 
 
-    if (isReturnDate && searchParams.departureDate !== '') {
-      // if user selected a return date and departure date is not empty
-      var departureDate = new Date(searchParams.departureDate);
-      if (departureDate > selectedDate) {         
-        return false
-      }
-    } 
+  //   if (isReturnDate && searchParams.departureDate !== '') {
+  //     // if user selected a return date and departure date is not empty
+  //     var departureDate = new Date(searchParams.departureDate);
+  //     if (departureDate > selectedDate) {         
+  //       return false
+  //     }
+  //   } 
     
-    return true
+  //   return true
     
-  }
+  // }
  
   const selectDate = (date : string) => {           
-    if (dateIsValid(date)) {
-      setCalendarVisible(false)
-      if (isReturnDate) {            
-        setSearchParams({...searchParams, returnDate: date})
-      } else {
-        setSearchParams({...searchParams, departureDate: date})
-      }       
-    } else {      
-      Alert.alert('Invalid return date')
-    }
+    // if (dateIsValid(date)) {
+    //   setCalendarVisible(false)
+    //   if (isReturnDate) {            
+    //     setSearchParams({...searchParams, returnDate: date})
+    //   } else {
+    //     setSearchParams({...searchParams, departureDate: date})
+    //   }       
+    // } else {      
+    //   Alert.alert('Invalid return date')
+    // }
+    setCalendarVisible(false)
+    if (isReturnDate) {            
+      setSearchParams({...searchParams, returnDate: date})
+    } else {
+      setSearchParams({...searchParams, departureDate: date})
+    }       
     
          
   }
@@ -122,7 +128,7 @@ const SearchScreen: React.FC = () => {
         calendarVisible={calendarVisible} 
         setCalendarVisible={setCalendarVisible} 
         selectDate={selectDate}
-        isReturnDate={isReturnDate}
+        isOneWay={isOneWay}
         />      
 
       <TitleText> Looking for cheap flights? </TitleText>

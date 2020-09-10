@@ -16,33 +16,67 @@ interface CalendarModalProps {
     setCalendarVisible: (calendarVisible : boolean) => void
     selectDate: (date : string) => void
     minDate: string
-    isReturnDate: boolean
+    isOneWay: boolean
 }
 
-const CalendarModal = ( {calendarVisible,setCalendarVisible, selectDate, 
-                         isReturnDate } : CalendarModalProps) => {                    
+const CalendarModal = ( {
+    calendarVisible,
+    setCalendarVisible, 
+    selectDate, 
+    isOneWay = false
+} : CalendarModalProps) => {                    
     
     const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
+    const [markedDates, setMarkedDates] = useState({})
+    const [markingState, setMarkingState] = useState<string>('START')
 
     const handleClose = () => {
         setCalendarVisible(false);            
     }           
 
     const handlePress = (day) => {        
-        selectDate(day.dateString)
-        // If user previously pressed on departure date field
-        if (!isReturnDate) {                                   
-            setMinDate(day.dateString)
-        }
+        console.log("Marking State: " + markingState)
+        if (isOneWay) {
+            selectDate(day.dateString)
+            return;
+        }      
+        
+        // User wants to mark a different period
+        if (markingState === 'NEXT') {
+            setMarkedDates({}) 
+            setMarkingState('START')
+        }               
+
+        // User is marking the start day
+        if (markingState === 'START' || markingState === 'NEXT') {
+            setMarkedDates({
+                [day.dateString] : {startingDay: true, color: 'lightskyblue'}
+            })
+            setMarkingState('END')
+        } 
+        
+        // User is marking the end day
+        if (markingState === 'END') {
+            setMarkedDates({ ...markedDates, 
+                [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
+            })
+            setMarkingState('NEXT')
+        } 
+        
+        
+
     }
 
     return (                
         <Overlay isVisible={calendarVisible} >            
-            <View>
+            <View style={{padding: 10}}>
                 <Calendar 
                     onDayPress={(day)=>handlePress(day)}                    
                     minDate={minDate}
+                    markedDates={markedDates}
+                    markingType={'period'}
                 />
+                
                 <PrimaryButton title="Close" onPress={handleClose} />
             </View>
         </Overlay>
