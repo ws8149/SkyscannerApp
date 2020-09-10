@@ -32,6 +32,6 @@ export const Container = styled.View`
 
 export const PrimaryButton = styled(Button).attrs({  
   containerStyle: { margin: 2}  ,
-  buttonStyle: { backgroundColor: "black" },
+  buttonStyle: { backgroundColor: "dodgerblue" },
   raised: true  
 })``;

@@ -163,7 +163,7 @@ const SearchScreen: React.FC = () => {
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
         <Switch
-          trackColor={{ false: "white", true: "blue" }}          
+          trackColor={{ false: "white", true: "dodgerblue" }}          
           onValueChange={toggleSwitch}
           value={isOneWay}          
         />           

@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { View, TextInput, Text, FlatList, ActivityIndicator } from 'react-native';
+import styled from 'styled-components/native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
-import { Card, ListItem, Button} from 'react-native-elements';
+import { ListItem, Button} from 'react-native-elements';
 import SortFilterModal from '../components/SortFilterModal'
 import {  NoResultsText, Container } from '../styles/index'
 import { PrimaryButton } from '../styles/index'
@@ -127,45 +128,21 @@ const ResultsScreen: React.FC = () => {
         requestQuotesByMonth();
     }
 
-    const renderItem = ({item}) => (                
-        <Card containerStyle={{margin: 0}}>
-            <View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <ListItem.Title>
-                        { formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
-                    </ListItem.Title>
-                    <ListItem.Title>{"RM "+ item['MinPrice']}</ListItem.Title>
-                </View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
-                    <ListItem.Title>
-                        {"Date: " + item['OutboundLeg']['DepartureDate'].substring(0,10)}
-                    </ListItem.Title>
-                    <ListItem.Title style={{color: item['Direct'] ? 'green' : 'red'}}>
-                        { item['Direct'] ? "Direct" : "Not Direct"}
-                    </ListItem.Title>
-                </View>            
-            </View>
-        </Card>
-
-     
-        // <ListItem bottomDivider>
-        //     <ListItem.Content>                                                
-        //         <View>
-        //             <ListItem.Title>                    
-        //                 { formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
-        //             </ListItem.Title>                                
-        //             <ListItem.Title>{"  RM "+ item['MinPrice']}</ListItem.Title>                              
-        //         </View>                
-        //         <ListItem.Title>
-        //             {"  Date: " + item['OutboundLeg']['DepartureDate'].substring(0,10)}
-        //         </ListItem.Title>                  
+    const renderItem = ({item}) => (
+        <ListItem bottomDivider>
+            <ListItem.Content>
+                <ListItem.Title>                    
+                    { formatCarrierNames(item['OutboundLeg']['CarrierIds'])}
+                </ListItem.Title>                                
+                <ListItem.Title>{"  RM "+ item['MinPrice']}</ListItem.Title>                              
+                <ListItem.Title>
+                    {"  Date: " + item['OutboundLeg']['DepartureDate'].substring(0,10)}
+                </ListItem.Title>                  
                 
-        //         <ListItem.Title>{"  Direct: " + item['Direct']}</ListItem.Title>  
+                <ListItem.Title>{"  Direct: " + item['Direct']}</ListItem.Title>  
                 
-        //     </ListItem.Content>
-        // </ListItem>         
-     
-        
+            </ListItem.Content>
+        </ListItem>
     )
 
     

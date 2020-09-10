@@ -26,7 +26,9 @@ const CalendarModal = ( {calendarVisible,setCalendarVisible, selectDate} : Calen
     return (                
         <Overlay isVisible={calendarVisible} >            
             <View>
-                <Calendar onDayPress={(day)=>handlePress(day)}/>
+                <Calendar 
+                    onDayPress={(day)=>handlePress(day)}                    
+                />
                 <PrimaryButton title="Close" onPress={handleClose} />
             </View>
         </Overlay>
