@@ -43,10 +43,7 @@ const ResultsScreen: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [sortFilterVisible, setSortFilterVisible] = useState<boolean>(false);
     const searchParams = route.params.searchParams;
-    const [quotes, setQuotes] = useState([]);           
-    // In case user requested for all flights this month but would like
-    // to go back to their original results
-    const [prevDate, setPrevDate] = useState<string>('');           
+    const [quotes, setQuotes] = useState([]);               
     
     const makeRequestToApi = () => {
         console.log("making request...")
@@ -100,11 +97,12 @@ const ResultsScreen: React.FC = () => {
 
     const showAllFlightsThisMonth = (allFlightsChecked : boolean) => {
         if (allFlightsChecked) {
-            setPrevDate(searchParams.departureDate)
+            // Temporarily set departure date to only include the month
+            let prevDate = searchParams.departureDate;
             searchParams.departureDate = searchParams.departureDate.substring(0,7);
             makeRequestToApi();                     
-        } else {
             searchParams.departureDate = prevDate;
+        } else {                        
             makeRequestToApi();                     
         }
         
@@ -118,7 +116,7 @@ const ResultsScreen: React.FC = () => {
     }
 
     const sortByPrice = () => {        
-        console.log("######### Sorting by price ############# \n")
+        
         let sortedQuotes = sort_by_key(quotes, 'MinPrice')
         setQuotes(sortedQuotes);
     }

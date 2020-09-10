@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
@@ -65,9 +65,10 @@ const SearchScreen: React.FC = () => {
     departureDate: '',
     returnDate: '',
     searchType: 'browsequotes'
-  })    
+  })      
 
   const search = () => {
+    console.log(searchParams)
     navigation.navigate('Results', {
         searchParams: searchParams
     })
@@ -92,9 +93,6 @@ const SearchScreen: React.FC = () => {
     var currentDate = new Date();    
     var departureDate = new Date('');
     currentDate.setHours(0,0,0,0)
-
-    console.log(currentDate)
-    console.log(selectedDate)
     
     if (currentDate > selectedDate) {      
       return false
