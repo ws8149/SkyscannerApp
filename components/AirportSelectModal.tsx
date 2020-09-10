@@ -21,7 +21,7 @@ const SelectContainer = styled.View`
 interface AirportSelectModalProps {
     modalVisible : boolean;
     setModalVisible : (modalVisible : boolean) => void;
-    selectAirport : () => void;
+    selectAirport : (placeId : string, placeName : string) => void;
 }
 
 const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : AirportSelectModalProps ) => {        
