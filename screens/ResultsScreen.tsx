@@ -109,9 +109,18 @@ const ResultsScreen: React.FC = () => {
         }
         
     }
+    function sort_by_key(array, key) {
+        return array.sort(function(a, b)
+        {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+    }
 
-    const sortByPrice = () => {
-        console.log(quotes)
+    const sortByPrice = () => {        
+        console.log("######### Sorting by price ############# \n")
+        let sortedQuotes = sort_by_key(quotes, 'MinPrice')
+        setQuotes(sortedQuotes);
     }
 
     const renderItem = ({item}) => (
