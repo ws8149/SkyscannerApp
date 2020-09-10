@@ -33,7 +33,7 @@ const SortFilterText = styled.Text`
 interface SortFilterModalProps {
     sortFilterVisible : boolean;
     setSortFilterVisible : (sortFilterVisible : boolean) => void;
-    showAllFlightsThisMonth : () => void;
+    showAllFlightsThisMonth : (allFlightsChecked : boolean) => void;
     sortByPrice : () => void;
     sortByDate : () => void;
 }
@@ -54,8 +54,8 @@ const SortFilterModal = ({sortFilterVisible,setSortFilterVisible, showAllFlights
     }
 
     const handleAllFlightsCheck = () => {
-        setAllFlightsChecked(prevState => !prevState);              
-        showAllFlightsThisMonth();
+        setAllFlightsChecked(!allFlightsChecked);              
+        showAllFlightsThisMonth(!allFlightsChecked);
     }
 
     return (                

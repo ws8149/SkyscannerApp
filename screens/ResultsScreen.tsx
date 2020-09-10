@@ -44,6 +44,9 @@ const ResultsScreen: React.FC = () => {
     const [sortFilterVisible, setSortFilterVisible] = useState<boolean>(false);
     const searchParams = route.params.searchParams;
     const [quotes, setQuotes] = useState([]);           
+    // In case user requested for all flights this month but would like
+    // to go back to their original results
+    const [prevQuotes, setPrevQuotes] = useState([]);           
     
     const makeRequestToApi = () => {
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
@@ -96,9 +99,15 @@ const ResultsScreen: React.FC = () => {
         return carrierNamesOutput;
     }
 
-    const showAllFlightsThisMonth = () => {
-        searchParams.departureDate = searchParams.departureDate.substring(0,7);
-        makeRequestToApi();         
+    const showAllFlightsThisMonth = (allFlightsChecked : boolean) => {
+        if (allFlightsChecked) {
+            setPrevQuotes(quotes);
+            searchParams.departureDate = searchParams.departureDate.substring(0,7);
+            makeRequestToApi();                     
+        } else {
+            setQuotes(prevQuotes)
+        }
+        
     }
 
     const sortByPrice = () => {
