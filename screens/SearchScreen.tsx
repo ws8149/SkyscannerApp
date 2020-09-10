@@ -1,37 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { View, Alert } from 'react-native';
-import styled from 'styled-components/native';
 import { Input } from 'react-native-elements';
-import { Text } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { Switch, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
-import { Picker } from '@react-native-community/picker';
+import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
-
-const SearchContainer = styled.View`
-  flex: 1;    
-`
-const SwitchContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-evenly;  
-  margin-bottom: 25px;
-`
-
-const TitleText = styled.Text`
- margin-top: 100px;
- text-align: center;
- font-size: 25px;
- margin-bottom: 100px;
-`
-
-
-const SwitchText = styled.Text`
-  margin-top: 5px;
-  font-size: 18px;
-`
+import { SearchContainer, SwitchContainer, 
+        TitleText, SwitchText } from '../styles/SearchScreenStyles'
 
 interface SearchParams {
   departureAirport: string,
