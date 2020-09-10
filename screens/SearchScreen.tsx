@@ -121,7 +121,9 @@ const SearchScreen: React.FC = () => {
       <CalendarModal 
         calendarVisible={calendarVisible} 
         setCalendarVisible={setCalendarVisible} 
-        selectDate={selectDate}/>      
+        selectDate={selectDate}
+        isReturnDate={isReturnDate}
+        />      
 
       <TitleText> Looking for cheap flights? </TitleText>
       <TouchableOpacity onPress={()=>{ 

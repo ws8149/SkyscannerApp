@@ -79,7 +79,7 @@ const ResultsScreen: React.FC = () => {
                         
             let carriers = res.data['Carriers']                       
             // Map carrier name to id
-            let responseQuotes = res.data['Quotes']                 
+            let responseQuotes = res.data['Quotes']                                 
             
 
             for (var i = 0; i < responseQuotes.length; i++) {
