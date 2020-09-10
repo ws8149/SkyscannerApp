@@ -8,7 +8,7 @@ import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
 import { SearchContainer, SwitchContainer, 
-        TitleText, SwitchText } from '../styles/SearchScreenStyles'
+        TitleText, SwitchText } from '../styles/index'
 
 interface SearchParams {
   departureAirport: string,

@@ -1,12 +1,11 @@
 import React, { Component, useState, useEffect, useRef } from 'react';
 import { Calendar } from 'react-native-calendars'
 import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
+import { View } from 'react-native';
 import styled from 'styled-components';
 
 
-const SelectContainer = styled.View`
-    
-`
+
 
 interface CalendarModalProps {
     calendarVisible: boolean;
@@ -26,10 +25,10 @@ const CalendarModal = ( {calendarVisible,setCalendarVisible, selectDate} : Calen
 
     return (                
         <Overlay isVisible={calendarVisible} >            
-            <SelectContainer>
+            <View>
                 <Calendar onDayPress={(day)=>handlePress(day)}/>
                 <Button title="Close" onPress={handleClose} />
-            </SelectContainer>
+            </View>
         </Overlay>
 
     )

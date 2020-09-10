@@ -5,7 +5,7 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
 import { ListItem, Button} from 'react-native-elements';
 import SortFilterModal from '../components/SortFilterModal'
-import {  NoResultsText, Container } from '../styles/ResultsScreenStyles'
+import {  NoResultsText, Container } from '../styles/index'
 
 // Set up axios
 axios.defaults.baseURL = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices"
