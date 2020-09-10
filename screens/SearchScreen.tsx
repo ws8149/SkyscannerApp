@@ -14,21 +14,19 @@ import CalendarModal from '../components/CalendarModal'
 const SearchContainer = styled.View`
   flex: 1;    
 `
-
-const ButtonContainer = styled.View`  
-  flex-direction: row;  
-  justify-content: space-evenly;  
-`
-
 const SwitchContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;  
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `
 
-const OneWaySwitch = styled.Switch`
-  
+const TitleText = styled.Text`
+ margin-top: 100px;
+ text-align: center;
+ font-size: 25px;
+ margin-bottom: 100px;
 `
+
 
 const SwitchText = styled.Text`
   margin-top: 5px;
@@ -139,6 +137,7 @@ const SearchScreen: React.FC = () => {
         setCalendarVisible={setCalendarVisible} 
         selectDate={selectDate}/>      
 
+      <TitleText> Looking for cheap flights? </TitleText>
       <TouchableOpacity onPress={()=>{ 
           setModalVisible(true)
           setIsDestination(false)
@@ -193,7 +192,12 @@ const SearchScreen: React.FC = () => {
         />           
       </SwitchContainer>       
       
-      <Button title="Search" onPress={search} />            
+      <Button 
+        title="Search" 
+        containerStyle={{margin: 2}} 
+        buttonStyle={{backgroundColor: "black"}}
+        raised={true}        
+        onPress={search} />            
 
     </SearchContainer>
   );
