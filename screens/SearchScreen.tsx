@@ -25,8 +25,7 @@ const SearchScreen: React.FC = () => {
   const navigation = useNavigation();      
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
   
-  // If user pressed on destination field  
-  const [isDestination, setIsDestination] = useState<boolean>(false)     
+  
   const [modalVisible, setModalVisible] = useState<boolean>(false)  
   const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -58,49 +57,18 @@ const SearchScreen: React.FC = () => {
   const toggleSwitch = () => {
     setIsOneWay(prevState => !prevState) 
     setSearchParams({...searchParams, returnDate: ''})
-  }
-
-  const selectAirport = (placeId : string, placeName : string) => {      
-      setModalVisible(false)
-      if (isDestination) {
-        setSearchParams({...searchParams, destinationAirportId: placeId, destinationAirport: placeName})
-      } else {
-        setSearchParams({...searchParams, departureAirportId: placeId, departureAirport: placeName})
-      }      
-  }  
-  
+  }   
 
   return (
-    <SearchContainer>      
-      <AirportSelectModal 
-        modalVisible={modalVisible} 
-        setModalVisible={setModalVisible} 
-        selectAirport={selectAirport} />
-      
-      
+    <SearchContainer>                     
 
       <TitleText> Looking for cheap flights? </TitleText>
-      <TouchableOpacity onPress={()=>{ 
-          setModalVisible(true)
-          setIsDestination(false)
-        }
-      }>
-        <Input value={searchParams.departureAirport} placeholder='Departure From (eg: KUL)' disabled={true}/>
-      </TouchableOpacity>     
-      
-      
-      <TouchableOpacity onPress={()=>{ 
-          setModalVisible(true)
-          setIsDestination(true)
-        }
-      }>
-        <Input 
-          value={searchParams.destinationAirport}
-          placeholder='Destination (eg: LHR)'        
-          disabled={true}
-        />                
-      </TouchableOpacity>
 
+      <AirportSelectModal 
+        modalVisible={modalVisible} 
+        setModalVisible={setModalVisible}         
+        searchParams={searchParams} 
+      />     
       
       <CalendarModal 
         calendarVisible={calendarVisible} 
