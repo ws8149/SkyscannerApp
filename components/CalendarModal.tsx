@@ -17,40 +17,40 @@ interface SearchParams {
     departureDate: string,
     returnDate: string,
     searchType: string
-  }
+}
 
 interface CalendarModalProps {
     calendarVisible: boolean;
-    setCalendarVisible: (calendarVisible : boolean) => void    
+    setCalendarVisible: (calendarVisible: boolean) => void
     minDate: string
     isOneWay: boolean
     searchParams: SearchParams
 }
 
-const CalendarModal = ( {
+const CalendarModal = ({
     calendarVisible,
-    setCalendarVisible,     
+    setCalendarVisible,
     isOneWay = false,
     searchParams
-} : CalendarModalProps) => {                    
-    
+}: CalendarModalProps) => {
+
     const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [markedDates, setMarkedDates] = useState({})
     const [markingState, setMarkingState] = useState<string>('START')
     const [isReturnDate, setIsReturnDate] = useState<boolean>(false)
 
     const handleClose = () => {
-        setCalendarVisible(false);            
-    }           
+        setCalendarVisible(false);
+    }
 
-    const handlePress = (day) => {        
+    const handlePress = (day) => {
 
         if (isReturnDate) {
             searchParams.returnDate = day.dateString
         } else {
             searchParams.departureDate = day.dateString
         }
-        
+
         setCalendarVisible(false);
 
         // console.log("Marking State: " + markingState)
@@ -59,7 +59,7 @@ const CalendarModal = ( {
         //     selectDate(day.dateString)
         //     return;
         // }      
-        
+
         // // User wants to mark a different period
         // if (markingState === 'NEXT') {
         //     setMarkedDates({}) 
@@ -73,7 +73,7 @@ const CalendarModal = ( {
         //     })
         //     setMarkingState('END')
         // } 
-        
+
         // // User is marking the end day
         // if (markingState === 'END') {
         //     setMarkedDates({ ...markedDates, 
@@ -81,49 +81,49 @@ const CalendarModal = ( {
         //     })
         //     setMarkingState('NEXT')
         // } 
-        
-        
+
+
 
     }
 
-    return (                
+    return (
         <View>
-            <Overlay isVisible={calendarVisible} >            
-                <View style={{padding: 10}}>
-                    <Calendar 
-                        onDayPress={(day)=>handlePress(day)}                    
+            <Overlay isVisible={calendarVisible} >
+                <View style={{ padding: 10 }}>
+                    <Calendar
+                        onDayPress={(day) => handlePress(day)}
                         minDate={minDate}
                         markedDates={markedDates}
                         markingType={'period'}
                     />
-                    
+
                     <PrimaryButton title="Close" onPress={handleClose} />
-                </View>            
-            </Overlay> 
-            
-            <TouchableOpacity onPress={()=>{
+                </View>
+            </Overlay>
+
+            <TouchableOpacity onPress={() => {
                 setCalendarVisible(true)
                 setIsReturnDate(false)
-              }}>                                         
-                <CalendarField>                             
-                <CalendarFieldText>
-                    {searchParams.departureDate === '' ? 'Departure Date' : searchParams.departureDate }                      
-                </CalendarFieldText> 
-                </CalendarField>        
-            </TouchableOpacity>  
+            }}>
+                <CalendarField>
+                    <CalendarFieldText>
+                        {searchParams.departureDate === '' ? 'Departure Date' : searchParams.departureDate}
+                    </CalendarFieldText>
+                </CalendarField>
+            </TouchableOpacity>
 
-            { isOneWay ? <View/> : (
-                <TouchableOpacity onPress={()=>{
+            {isOneWay ? <View /> : (
+                <TouchableOpacity onPress={() => {
                     setCalendarVisible(true)
                     setIsReturnDate(true)
-                  }}>                                         
-                    <CalendarField>                             
-                      <CalendarFieldText>
-                          {searchParams.returnDate === '' ? 'Return Date' : searchParams.returnDate }                      
-                      </CalendarFieldText>                                     
-                    </CalendarField>        
-                </TouchableOpacity>  
-            )}            
+                }}>
+                    <CalendarField>
+                        <CalendarFieldText>
+                            {searchParams.returnDate === '' ? 'Return Date' : searchParams.returnDate}
+                        </CalendarFieldText>
+                    </CalendarField>
+                </TouchableOpacity>
+            )}
         </View>
 
     )

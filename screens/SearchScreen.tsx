@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Alert, Text } from 'react-native';
 import { Input } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -6,9 +6,11 @@ import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
-import { SearchContainer, SwitchContainer, 
-        TitleText, SwitchText, PrimaryButton, 
-        CalendarField, CalendarFieldText } from '../styles/index'
+import {
+  SearchContainer, SwitchContainer,
+  TitleText, SwitchText, PrimaryButton,
+  CalendarField, CalendarFieldText
+} from '../styles/index'
 
 interface SearchParams {
   departureAirport: string,
@@ -21,12 +23,12 @@ interface SearchParams {
 }
 
 
-const SearchScreen: React.FC = () => {   
-  const navigation = useNavigation();      
+const SearchScreen: React.FC = () => {
+  const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
-  
-  
-  const [modalVisible, setModalVisible] = useState<boolean>(false)  
+
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useState<SearchParams>({
     departureAirport: '',
@@ -36,14 +38,14 @@ const SearchScreen: React.FC = () => {
     departureDate: '',
     returnDate: '',
     searchType: 'browsequotes'
-  })      
+  })
 
   const search = () => {
     let isValidForSearch = true;
     if (searchParams.departureAirport === '') { isValidForSearch = false }
     if (searchParams.destinationAirport === '') { isValidForSearch = false }
     if (searchParams.departureDate === '') { isValidForSearch = false }
-    
+
     if (isValidForSearch) {
       navigation.navigate('Results', {
         searchParams: searchParams
@@ -51,42 +53,42 @@ const SearchScreen: React.FC = () => {
     } else {
       Alert.alert('Please ensure fields are valid')
     }
-    
+
   }
 
   const toggleSwitch = () => {
-    setIsOneWay(prevState => !prevState) 
-    setSearchParams({...searchParams, returnDate: ''})
-  }   
+    setIsOneWay(prevState => !prevState)
+    setSearchParams({ ...searchParams, returnDate: '' })
+  }
 
   return (
-    <SearchContainer>                     
+    <SearchContainer>
 
       <TitleText> Looking for cheap flights? </TitleText>
 
-      <AirportSelectModal 
-        modalVisible={modalVisible} 
-        setModalVisible={setModalVisible}         
-        searchParams={searchParams} 
-      />     
-      
-      <CalendarModal 
-        calendarVisible={calendarVisible} 
-        setCalendarVisible={setCalendarVisible}         
+      <AirportSelectModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        searchParams={searchParams}
+      />
+
+      <CalendarModal
+        calendarVisible={calendarVisible}
+        setCalendarVisible={setCalendarVisible}
         isOneWay={isOneWay}
         searchParams={searchParams}
-      />           
+      />
 
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
         <Switch
-          trackColor={{ false: "white", true: "dodgerblue" }}          
+          trackColor={{ false: "white", true: "dodgerblue" }}
           onValueChange={toggleSwitch}
-          value={isOneWay}          
-        />           
-      </SwitchContainer>                  
+          value={isOneWay}
+        />
+      </SwitchContainer>
 
-      <PrimaryButton title="Search" onPress={search} />          
+      <PrimaryButton title="Search" onPress={search} />
 
     </SearchContainer>
   );
