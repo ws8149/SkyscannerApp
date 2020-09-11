@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
-import { Calendar } from 'react-native-calendars'
-import { Button, Overlay, SearchBar, Input, ListItem } from 'react-native-elements';
-import { View, TouchableOpacity, Text } from 'react-native';
-import styled from 'styled-components';
-import { PrimaryButton, CalendarField, CalendarFieldText, CalendarFieldHeader } from '../styles/index'
+import React, { useState } from 'react';
+import { Calendar } from 'react-native-calendars';
+import { Overlay } from 'react-native-elements';
+import { View, TouchableOpacity } from 'react-native';
+
+import { PrimaryButton, SearchField, SearchFieldText } from '../styles/index'
 
 import moment from 'moment';
 
@@ -19,14 +19,14 @@ interface SearchParams {
     searchType: string
 }
 
-interface CalendarModalProps {    
+interface CalendarModalProps {
     minDate: string
     isOneWay: boolean
     searchParams: SearchParams
-    setSearchParams: (searchParams : SearchParams) => void
+    setSearchParams: (searchParams: SearchParams) => void
 }
 
-const CalendarModal = ({    
+const CalendarModal = ({
     isOneWay = false,
     searchParams,
     setSearchParams
@@ -43,53 +43,55 @@ const CalendarModal = ({
     }
 
     const handlePress = (day) => {
-        
+
         if (isOneWay) {
-            setSearchParams({ ...searchParams, departureDate: day.dateString })            
+            setSearchParams({ ...searchParams, departureDate: day.dateString })
             setCalendarVisible(false);
             return;
-        }                  
-        
+        }
+
         if (markingState === 'START') {
-            setMarkedDates({ 
-                [day.dateString] : {startingDay: true, color: 'lightskyblue'}
+            setMarkedDates({
+                [day.dateString]: { startingDay: true, color: 'lightskyblue' }
             })
 
-            setSearchParams({...searchParams, departureDate: day.dateString})
+            setSearchParams({ ...searchParams, departureDate: day.dateString })
             setMarkingState('END')
-        } 
+        }
 
-        if (markingState === 'END') {                        
-            
+        if (markingState === 'END') {
+
             // Accumulate the dates in between the start and end dates
-            let startingDate = moment(Object.keys(markedDates)[0])                        
-            let nextDate = moment(Object.keys(markedDates)[0]).add(1,'days')                        
-            let endingDate = moment(day.dateString)             
+            let startingDate = moment(Object.keys(markedDates)[0])
+            let nextDate = moment(Object.keys(markedDates)[0]).add(1, 'days')
+            let endingDate = moment(day.dateString)
 
             // Only accumulate if start and ending date aint the same
             if (!endingDate.isSame(startingDate)) {
                 let accumulatedDates = {
                     ...markedDates,
-                    [nextDate.format("YYYY-MM-DD")] : {color : 'lightskyblue'}
-                }                      
-                
-                while (!nextDate.isSame(endingDate)) {                
-                    nextDate = nextDate.add(1, 'days')           
+                    [nextDate.format("YYYY-MM-DD")]: { color: 'lightskyblue' }
+                }
+
+                while (!nextDate.isSame(endingDate)) {
+                    nextDate = nextDate.add(1, 'days')
                     let nextDateString = nextDate.format("YYYY-MM-DD")
-                    accumulatedDates = { ...accumulatedDates, 
-                        [nextDateString] : {color: 'lightskyblue'}                            
+                    accumulatedDates = {
+                        ...accumulatedDates,
+                        [nextDateString]: { color: 'lightskyblue' }
                     }
-                }                                              
-                
-                setMarkedDates({ ...accumulatedDates, 
-                    [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
-                })                                  
-                        
-                setSearchParams({...searchParams, returnDate: day.dateString})
+                }
+
+                setMarkedDates({
+                    ...accumulatedDates,
+                    [day.dateString]: { endingDay: true, color: 'lightskyblue' }
+                })
+
+                setSearchParams({ ...searchParams, returnDate: day.dateString })
                 setMarkingState('START')
             }
-            
-        } 
+
+        }
 
 
 
@@ -114,11 +116,11 @@ const CalendarModal = ({
                 setCalendarVisible(true)
                 setIsReturnDate(false)
             }}>
-                <CalendarField>
-                    <CalendarFieldText>
+                <SearchField>
+                    <SearchFieldText>
                         {searchParams.departureDate === '' ? 'Departure Date' : searchParams.departureDate}
-                    </CalendarFieldText>
-                </CalendarField>
+                    </SearchFieldText>
+                </SearchField>
             </TouchableOpacity>
 
             {isOneWay ? <View /> : (
@@ -126,11 +128,11 @@ const CalendarModal = ({
                     setCalendarVisible(true)
                     setIsReturnDate(true)
                 }}>
-                    <CalendarField>
-                        <CalendarFieldText>
+                    <SearchField>
+                        <SearchFieldText>
                             {searchParams.returnDate === '' ? 'Return Date' : searchParams.returnDate}
-                        </CalendarFieldText>
-                    </CalendarField>
+                        </SearchFieldText>
+                    </SearchField>
                 </TouchableOpacity>
             )}
         </View>

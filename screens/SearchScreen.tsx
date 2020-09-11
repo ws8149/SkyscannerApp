@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, Text } from 'react-native';
-import { Input } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
+import { Switch } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
 import {
   SearchContainer, SwitchContainer,
   TitleText, SwitchText, PrimaryButton,
-  CalendarField, CalendarFieldText
 } from '../styles/index'
 
 interface SearchParams {
@@ -27,7 +24,7 @@ const SearchScreen: React.FC = () => {
   const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
   const [buttonIsDisabled, setButtonIsDisabled] = useState<boolean>(false)
-    
+
   const [searchParams, setSearchParams] = useState<SearchParams>({
     departureAirport: '',
     destinationAirport: '',
@@ -38,15 +35,14 @@ const SearchScreen: React.FC = () => {
     searchType: 'browsequotes'
   })
 
-  const validateForm = () => {    
-    if (searchParams.departureAirport === '') { return false}
-    if (searchParams.destinationAirport === '') { return false}
-    if (searchParams.departureDate === '') { return false}    
+  const validateForm = () => {
+    if (searchParams.departureAirport === '') { return false }
+    if (searchParams.destinationAirport === '') { return false }
+    if (searchParams.departureDate === '') { return false }
     return true
   }
 
-  useEffect(() => {
-    console.log("checking if search params is valid")
+  useEffect(() => {    
     let formIsValid = validateForm()
     if (formIsValid) {
       setButtonIsDisabled(false)
@@ -60,7 +56,7 @@ const SearchScreen: React.FC = () => {
       searchParams: searchParams
     })
   }
-  
+
 
   const toggleSwitch = () => {
     setIsOneWay(prevState => !prevState)
@@ -72,12 +68,12 @@ const SearchScreen: React.FC = () => {
 
       <TitleText> Looking for cheap flights? </TitleText>
 
-      <AirportSelectModal        
+      <AirportSelectModal
         searchParams={searchParams}
         setSearchParams={setSearchParams}
       />
 
-      <CalendarModal        
+      <CalendarModal
         isOneWay={isOneWay}
         searchParams={searchParams}
         setSearchParams={setSearchParams}
