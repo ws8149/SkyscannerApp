@@ -9,8 +9,8 @@ import {
 import { Overlay, SearchBar, ListItem } from 'react-native-elements';
 
 import axios from 'axios';
-import { PrimaryButton, CalendarField, 
-    CalendarFieldText, SelectContainer} from '../styles/index'
+import { PrimaryButton, SearchField, 
+    SearchFieldText, SelectContainer} from '../styles/index'
 
 
 
@@ -144,11 +144,11 @@ const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModa
                 setIsDestination(false)
                 getSuggestions('Kuala')
             }}>
-                <CalendarField>
-                    <CalendarFieldText>
+                <SearchField>
+                    <SearchFieldText>
                         {searchParams.departureAirport === '' ? 'Departure From (eg: KUL)' : searchParams.departureAirport}
-                    </CalendarFieldText>
-                </CalendarField>
+                    </SearchFieldText>
+                </SearchField>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => {
@@ -156,11 +156,11 @@ const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModa
                 setIsDestination(true)
                 getSuggestions('Kuala')
             }}>
-                <CalendarField>
-                    <CalendarFieldText>
+                <SearchField>
+                    <SearchFieldText>
                         {searchParams.destinationAirport === '' ? 'Destination (eg: LHR)' : searchParams.destinationAirport}
-                    </CalendarFieldText>
-                </CalendarField>
+                    </SearchFieldText>
+                </SearchField>
             </TouchableOpacity>
 
 

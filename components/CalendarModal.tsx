@@ -3,7 +3,7 @@ import { Calendar } from 'react-native-calendars';
 import { Overlay } from 'react-native-elements';
 import { View, TouchableOpacity } from 'react-native';
 
-import { PrimaryButton, CalendarField, CalendarFieldText } from '../styles/index'
+import { PrimaryButton, SearchField, SearchFieldText } from '../styles/index'
 
 import moment from 'moment';
 
@@ -116,11 +116,11 @@ const CalendarModal = ({
                 setCalendarVisible(true)
                 setIsReturnDate(false)
             }}>
-                <CalendarField>
-                    <CalendarFieldText>
+                <SearchField>
+                    <SearchFieldText>
                         {searchParams.departureDate === '' ? 'Departure Date' : searchParams.departureDate}
-                    </CalendarFieldText>
-                </CalendarField>
+                    </SearchFieldText>
+                </SearchField>
             </TouchableOpacity>
 
             {isOneWay ? <View /> : (
@@ -128,11 +128,11 @@ const CalendarModal = ({
                     setCalendarVisible(true)
                     setIsReturnDate(true)
                 }}>
-                    <CalendarField>
-                        <CalendarFieldText>
+                    <SearchField>
+                        <SearchFieldText>
                             {searchParams.returnDate === '' ? 'Return Date' : searchParams.returnDate}
-                        </CalendarFieldText>
-                    </CalendarField>
+                        </SearchFieldText>
+                    </SearchField>
                 </TouchableOpacity>
             )}
         </View>

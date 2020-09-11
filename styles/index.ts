@@ -43,13 +43,13 @@ export const PrimaryButton = styled(Button).attrs({
   raised: true  
 })``;
 
-export const CalendarField = styled.View`
+export const SearchField = styled.View`
   border-bottom-width: 1px;  
   border-color: gray;
   margin: 10px;  
 `
 
-export const CalendarFieldText = styled.Text`
+export const SearchFieldText = styled.Text`
   font-size: 20px;
   margin-bottom: 5px;  
   color: gray;
