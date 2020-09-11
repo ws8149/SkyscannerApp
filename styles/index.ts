@@ -37,10 +37,15 @@ export const PrimaryButton = styled(Button).attrs({
 })``;
 
 export const CalendarField = styled.View`
-  border-bottom-width: 1;  
-  margin: 10px;
+  border-bottom-width: 1px;  
+  margin: 10px;  
 `
 
 export const CalendarFieldText = styled.Text`
+  font-size: 20px;
+  margin-bottom: 5px;  
+`
+
+export const CalendarFieldHeader = styled.Text`
   font-size: 20px;
 `

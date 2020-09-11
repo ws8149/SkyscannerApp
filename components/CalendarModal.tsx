@@ -3,13 +3,21 @@ import { Calendar } from 'react-native-calendars'
 import { Button, Overlay, SearchBar, Input, ListItem } from 'react-native-elements';
 import { View, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
-import { PrimaryButton } from '../styles/index'
+import { PrimaryButton, CalendarField, CalendarFieldText, CalendarFieldHeader } from '../styles/index'
 
 import moment from 'moment';
 
 const currentDate = moment().format('YYYY-MM-DD');
 
-
+interface SearchParams {
+    departureAirport: string,
+    destinationAirport: string,
+    departureAirportId: string,
+    destinationAirportId: string,
+    departureDate: string,
+    returnDate: string,
+    searchType: string
+  }
 
 interface CalendarModalProps {
     calendarVisible: boolean;
@@ -17,13 +25,15 @@ interface CalendarModalProps {
     selectDate: (date : string) => void
     minDate: string
     isOneWay: boolean
+    searchParams: SearchParams
 }
 
 const CalendarModal = ( {
     calendarVisible,
     setCalendarVisible, 
     selectDate, 
-    isOneWay = false
+    isOneWay = false,
+    searchParams
 } : CalendarModalProps) => {                    
     
     const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
@@ -35,54 +45,101 @@ const CalendarModal = ( {
     }           
 
     const handlePress = (day) => {        
-        console.log("Marking State: " + markingState)
-        if (isOneWay) {
-            selectDate(day.dateString)
-            return;
-        }      
-        
-        // User wants to mark a different period
-        if (markingState === 'NEXT') {
-            setMarkedDates({}) 
-            setMarkingState('START')
-        }               
 
-        // User is marking the start day
-        if (markingState === 'START' || markingState === 'NEXT') {
-            setMarkedDates({
-                [day.dateString] : {startingDay: true, color: 'lightskyblue'}
-            })
-            setMarkingState('END')
-        } 
+        searchParams.departureDate = day.dateString
+        // console.log("Marking State: " + markingState)
+
+        // if (isOneWay) {
+        //     selectDate(day.dateString)
+        //     return;
+        // }      
         
-        // User is marking the end day
-        if (markingState === 'END') {
-            setMarkedDates({ ...markedDates, 
-                [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
-            })
-            setMarkingState('NEXT')
-        } 
+        // // User wants to mark a different period
+        // if (markingState === 'NEXT') {
+        //     setMarkedDates({}) 
+        //     setMarkingState('START')
+        // }               
+
+        // // User is marking the start day
+        // if (markingState === 'START' || markingState === 'NEXT') {
+        //     setMarkedDates({
+        //         [day.dateString] : {startingDay: true, color: 'lightskyblue'}
+        //     })
+        //     setMarkingState('END')
+        // } 
+        
+        // // User is marking the end day
+        // if (markingState === 'END') {
+        //     setMarkedDates({ ...markedDates, 
+        //         [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
+        //     })
+        //     setMarkingState('NEXT')
+        // } 
         
         
 
     }
 
     return (                
-        <Overlay isVisible={calendarVisible} >            
-            <View style={{padding: 10}}>
-                <Calendar 
-                    onDayPress={(day)=>handlePress(day)}                    
-                    minDate={minDate}
-                    markedDates={markedDates}
-                    markingType={'period'}
-                />
-                
-                <PrimaryButton title="Close" onPress={handleClose} />
-            </View>            
-        </Overlay>      
+        <View>
+            <Overlay isVisible={calendarVisible} >            
+                <View style={{padding: 10}}>
+                    <Calendar 
+                        onDayPress={(day)=>handlePress(day)}                    
+                        minDate={minDate}
+                        markedDates={markedDates}
+                        markingType={'period'}
+                    />
+                    
+                    <PrimaryButton title="Close" onPress={handleClose} />
+                </View>            
+            </Overlay> 
+            
+            <TouchableOpacity onPress={()=>{
+                setCalendarVisible(true)
+                // setIsReturnDate(false)
+              }}>                                         
+                <CalendarField>                             
+                  <CalendarFieldText>{searchParams.departureDate}</CalendarFieldText>                                     
+                </CalendarField>        
+            </TouchableOpacity>  
+
+            <TouchableOpacity onPress={()=>{
+                setCalendarVisible(true)
+                // setIsReturnDate(false)
+              }}>                                         
+                <CalendarField>                             
+                  <CalendarFieldText>Return Date</CalendarFieldText>                                     
+                </CalendarField>        
+            </TouchableOpacity>  
+        </View>
 
     )
 }
 
 export default CalendarModal;
 
+
+{/* <TouchableOpacity onPress={()=>{
+          setCalendarVisible(true)
+          setIsReturnDate(false)
+        }}>
+        <Input 
+          value={searchParams.departureDate}
+          placeholder='Departure Date (YYYY/MM/DD)'                              
+          disabled={true}
+        />
+      </TouchableOpacity>    */}
+
+//       { isOneWay ? <View/> : (
+//         <TouchableOpacity onPress={()=>{
+//           setCalendarVisible(true)
+//           setIsReturnDate(true)
+//         }}>
+//           <Input 
+//             value={searchParams.returnDate}
+//             placeholder='Return Date (YYYY/MM/DD)'        
+//             disabled={true}
+//           />
+//         </TouchableOpacity>        
+//       )}      

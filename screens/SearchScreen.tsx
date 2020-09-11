@@ -93,12 +93,7 @@ const SearchScreen: React.FC = () => {
         setModalVisible={setModalVisible} 
         selectAirport={selectAirport} />
       
-      <CalendarModal 
-        calendarVisible={calendarVisible} 
-        setCalendarVisible={setCalendarVisible} 
-        selectDate={selectDate}
-        isOneWay={isOneWay}
-        />      
+      
 
       <TitleText> Looking for cheap flights? </TitleText>
       <TouchableOpacity onPress={()=>{ 
@@ -122,43 +117,14 @@ const SearchScreen: React.FC = () => {
         />                
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(false)
-        }}>
-        <Input 
-          value={searchParams.departureDate}
-          placeholder='Departure Date (YYYY/MM/DD)'                              
-          disabled={true}
-        />
-      </TouchableOpacity>     
-
       
-
-
-      <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(false)
-        }}>          
-          <CalendarField>
-            <CalendarFieldText>{searchParams.departureDate}</CalendarFieldText>                                     
-          </CalendarField>        
-      </TouchableOpacity>     
-
-      
-
-      { isOneWay ? <View/> : (
-        <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(true)
-        }}>
-          <Input 
-            value={searchParams.returnDate}
-            placeholder='Return Date (YYYY/MM/DD)'        
-            disabled={true}
-          />
-        </TouchableOpacity>        
-      )}      
+      <CalendarModal 
+        calendarVisible={calendarVisible} 
+        setCalendarVisible={setCalendarVisible} 
+        selectDate={selectDate}
+        isOneWay={isOneWay}
+        searchParams={searchParams}
+      />           
 
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
