@@ -154,7 +154,7 @@ const ResultsScreen: React.FC = () => {
     const renderContent = () => {
 
         if (isLoading) {
-            return <ActivityIndicator />
+            return <ActivityIndicator color="lightskyblue"/>
         } else {
             if (quotes.length > 0) {
                 return (
