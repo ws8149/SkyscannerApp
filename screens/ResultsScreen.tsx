@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { View, TextInput, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
-import { Card, ListItem, Button} from 'react-native-elements';
+import { Card, ListItem} from 'react-native-elements';
 import SortFilterModal from '../components/SortFilterModal'
 import {  NoResultsText, Container } from '../styles/index'
 import { PrimaryButton } from '../styles/index'

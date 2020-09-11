@@ -1,15 +1,12 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    Modal,
+import React, { useState, useEffect, useRef } from 'react';
+import {    
+    View,    
     TouchableOpacity,
     FlatList,
     ActivityIndicator
 } from 'react-native';
 
-import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
+import { Overlay, SearchBar, ListItem } from 'react-native-elements';
 import styled from 'styled-components';
 import axios from 'axios';
 import { PrimaryButton, CalendarField, CalendarFieldText } from '../styles/index'

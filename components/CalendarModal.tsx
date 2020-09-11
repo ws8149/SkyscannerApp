@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Calendar } from 'react-native-calendars'
-import { Button, Overlay, SearchBar, Input, ListItem } from 'react-native-elements';
-import { View, TouchableOpacity, Text } from 'react-native';
-import styled from 'styled-components';
-import { PrimaryButton, CalendarField, CalendarFieldText, CalendarFieldHeader } from '../styles/index'
+import { Overlay} from 'react-native-elements';
+import { View, TouchableOpacity } from 'react-native';
+
+import { PrimaryButton, CalendarField, CalendarFieldText } from '../styles/index'
 
 import moment from 'moment';
 

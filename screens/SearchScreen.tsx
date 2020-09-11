@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, Text } from 'react-native';
-import { Input } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
+import { Switch } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
