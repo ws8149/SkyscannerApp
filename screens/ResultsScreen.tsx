@@ -6,11 +6,11 @@ import { Card, ListItem, Button} from 'react-native-elements';
 import SortFilterModal from '../components/SortFilterModal'
 import {  NoResultsText, Container } from '../styles/index'
 import { PrimaryButton } from '../styles/index'
-
+import { API_KEY } from '../config/api_credentials'
 // Set up axios
 axios.defaults.baseURL = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices"
 axios.defaults.headers.common['x-rapidapi-host'] = 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com';
-axios.defaults.headers.common['x-rapidapi-key'] = '202163265fmsh740d3936afe742bp1da78djsn1614a4f00218';
+axios.defaults.headers.common['x-rapidapi-key'] = API_KEY;
 axios.defaults.headers.common['useQueryString'] = true;
 
 
@@ -69,7 +69,7 @@ const ResultsScreen: React.FC = () => {
      //////////////////////////// Helper Functions End ////////////////////////////////////
     
     const makeRequestToApi = () => {
-        console.log("making request...")
+        console.log(API_KEY)
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}`
