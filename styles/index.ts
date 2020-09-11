@@ -19,6 +19,7 @@ export const TitleText = styled.Text`
 export const SwitchText = styled.Text`
   margin-top: 5px;
   font-size: 18px;
+  color: gray;
 `
 
 export const NoResultsText = styled.Text`    
@@ -38,14 +39,13 @@ export const PrimaryButton = styled(Button).attrs({
 
 export const CalendarField = styled.View`
   border-bottom-width: 1px;  
+  border-color: gray;
   margin: 10px;  
 `
 
 export const CalendarFieldText = styled.Text`
   font-size: 20px;
   margin-bottom: 5px;  
+  color: gray;
 `
 
-export const CalendarFieldHeader = styled.Text`
-  font-size: 20px;
-`

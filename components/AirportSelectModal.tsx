@@ -134,7 +134,7 @@ const AirportSelectModal = ({modalVisible,setModalVisible,searchParams} : Airpor
               }}>                                         
                 <CalendarField>                             
                 <CalendarFieldText>
-                    {searchParams.departureAirport === '' ? 'Departure From' : searchParams.departureAirport }                      
+                    {searchParams.departureAirport === '' ? 'Departure From (eg: KUL)' : searchParams.departureAirport }                      
                 </CalendarFieldText> 
                 </CalendarField>        
             </TouchableOpacity>  
@@ -145,7 +145,7 @@ const AirportSelectModal = ({modalVisible,setModalVisible,searchParams} : Airpor
               }}>                                         
                 <CalendarField>                             
                 <CalendarFieldText>
-                    {searchParams.destinationAirport === '' ? 'Destination' : searchParams.destinationAirport }                      
+                    {searchParams.destinationAirport === '' ? 'Destination (eg: LHR)' : searchParams.destinationAirport }                      
                 </CalendarFieldText> 
                 </CalendarField>        
             </TouchableOpacity>  
