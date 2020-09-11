@@ -31,9 +31,10 @@ interface SearchParams {
 
 interface AirportSelectModalProps {    
     searchParams: SearchParams
+    setSearchParams: (searchParams : SearchParams) => void
 }
 
-const AirportSelectModal = ({ searchParams }: AirportSelectModalProps) => {
+const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModalProps) => {
     
     const [searchResults, setSearchResults] = useState<string>();
     const [searchText, setSearchText] = useState<string>('');
@@ -68,11 +69,19 @@ const AirportSelectModal = ({ searchParams }: AirportSelectModalProps) => {
     const selectAirport = (placeId: string, placeName: string) => {
 
         if (isDestination) {
-            searchParams.destinationAirport = placeName
-            searchParams.destinationAirportId = placeId
+            
+            setSearchParams({ 
+                ...searchParams, 
+                destinationAirport: placeName,
+                destinationAirportId: placeId
+            })
+
         } else {
-            searchParams.departureAirport = placeName
-            searchParams.departureAirportId = placeId
+            setSearchParams({ 
+                ...searchParams, 
+                departureAirport: placeName,
+                departureAirportId: placeId
+            })
         }
 
         setSelectModalVisible(false)

@@ -26,10 +26,8 @@ interface SearchParams {
 const SearchScreen: React.FC = () => {
   const navigation = useNavigation();
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
-
-
-  const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
+  const [buttonIsDisabled, setButtonIsDisabled] = useState<boolean>(false)
+    
   const [searchParams, setSearchParams] = useState<SearchParams>({
     departureAirport: '',
     destinationAirport: '',
@@ -40,21 +38,29 @@ const SearchScreen: React.FC = () => {
     searchType: 'browsequotes'
   })
 
-  const search = () => {
-    let isValidForSearch = true;
-    if (searchParams.departureAirport === '') { isValidForSearch = false }
-    if (searchParams.destinationAirport === '') { isValidForSearch = false }
-    if (searchParams.departureDate === '') { isValidForSearch = false }
-
-    if (isValidForSearch) {
-      navigation.navigate('Results', {
-        searchParams: searchParams
-      })
-    } else {
-      Alert.alert('Please ensure fields are valid')
-    }
-
+  const validateForm = () => {    
+    if (searchParams.departureAirport === '') { return false}
+    if (searchParams.destinationAirport === '') { return false}
+    if (searchParams.departureDate === '') { return false}    
+    return true
   }
+
+  useEffect(() => {
+    console.log("checking if search params is valid")
+    let formIsValid = validateForm()
+    if (formIsValid) {
+      setButtonIsDisabled(false)
+    } else {
+      setButtonIsDisabled(true)
+    }
+  }, [searchParams])
+
+  const search = () => {
+    navigation.navigate('Results', {
+      searchParams: searchParams
+    })
+  }
+  
 
   const toggleSwitch = () => {
     setIsOneWay(prevState => !prevState)
@@ -68,11 +74,13 @@ const SearchScreen: React.FC = () => {
 
       <AirportSelectModal        
         searchParams={searchParams}
+        setSearchParams={setSearchParams}
       />
 
       <CalendarModal        
         isOneWay={isOneWay}
         searchParams={searchParams}
+        setSearchParams={setSearchParams}
       />
 
       <SwitchContainer>
@@ -84,7 +92,7 @@ const SearchScreen: React.FC = () => {
         />
       </SwitchContainer>
 
-      <PrimaryButton title="Search" onPress={search} />
+      <PrimaryButton title="Search" onPress={search} disabled={buttonIsDisabled} />
 
     </SearchContainer>
   );

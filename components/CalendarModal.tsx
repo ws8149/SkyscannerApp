@@ -23,11 +23,13 @@ interface CalendarModalProps {
     minDate: string
     isOneWay: boolean
     searchParams: SearchParams
+    setSearchParams: (searchParams : SearchParams) => void
 }
 
 const CalendarModal = ({    
     isOneWay = false,
-    searchParams
+    searchParams,
+    setSearchParams
 }: CalendarModalProps) => {
 
     const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
@@ -42,10 +44,10 @@ const CalendarModal = ({
 
     const handlePress = (day) => {
 
-        if (isReturnDate) {
-            searchParams.returnDate = day.dateString
+        if (isReturnDate) {            
+            setSearchParams({ ...searchParams, returnDate: day.dateString})
         } else {
-            searchParams.departureDate = day.dateString
+            setSearchParams({ ...searchParams, departureDate: day.dateString })            
         }
 
         setCalendarVisible(false);
