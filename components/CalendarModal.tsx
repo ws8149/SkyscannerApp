@@ -32,7 +32,7 @@ const CalendarModal = ({
     setSearchParams
 }: CalendarModalProps) => {
 
-    const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
+    const [minDate, setMinDate] = useState<string>(currentDate)
     const [markedDates, setMarkedDates] = useState({})
     const [markingState, setMarkingState] = useState<string>('START')
     const [isReturnDate, setIsReturnDate] = useState<boolean>(false)
@@ -44,62 +44,51 @@ const CalendarModal = ({
 
     const handlePress = (day) => {
         
-
         if (isOneWay) {
             setSearchParams({ ...searchParams, departureDate: day.dateString })            
             setCalendarVisible(false);
             return;
-        }      
-
-        // if (isReturnDate) {            
-        //     setSearchParams({ ...searchParams, returnDate: day.dateString})
-        // } else {
-        //     setSearchParams({ ...searchParams, departureDate: day.dateString })            
-        // }
+        }                  
         
-        console.log("Marking State: " + markingState)        
-
-        // User wants to mark a different period
-        // if (markingState === 'NEXT') {
-        //     setMarkedDates({}) 
-        //     setMarkingState('START')
-        // }               
-
-        // User is marking the start day
         if (markingState === 'START') {
             setMarkedDates({ 
                 [day.dateString] : {startingDay: true, color: 'lightskyblue'}
             })
+
+            setSearchParams({...searchParams, departureDate: day.dateString})
             setMarkingState('END')
         } 
 
-        // User is marking the end day
         if (markingState === 'END') {                        
             
-            // Accumulate the dates in between the start date and the ending date
+            // Accumulate the dates in between the start and end dates
             let startingDate = moment(Object.keys(markedDates)[0])                        
             let nextDate = moment(Object.keys(markedDates)[0]).add(1,'days')                        
             let endingDate = moment(day.dateString)             
 
-            let accumulatedDates = {
-                ...markedDates,
-                [nextDate.format("YYYY-MM-DD")] : {color : 'lightskyblue'}
-            }                      
+            // Only accumulate if start and ending date aint the same
+            if (!endingDate.isSame(startingDate)) {
+                let accumulatedDates = {
+                    ...markedDates,
+                    [nextDate.format("YYYY-MM-DD")] : {color : 'lightskyblue'}
+                }                      
+                
+                while (!nextDate.isSame(endingDate)) {                
+                    nextDate = nextDate.add(1, 'days')           
+                    let nextDateString = nextDate.format("YYYY-MM-DD")
+                    accumulatedDates = { ...accumulatedDates, 
+                        [nextDateString] : {color: 'lightskyblue'}                            
+                    }
+                }                                              
+                
+                setMarkedDates({ ...accumulatedDates, 
+                    [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
+                })                                  
+                        
+                setSearchParams({...searchParams, returnDate: day.dateString})
+                setMarkingState('START')
+            }
             
-            while (!nextDate.isSame(endingDate)) {                
-                nextDate = nextDate.add(1, 'days')           
-                let nextDateString = nextDate.format("YYYY-MM-DD")
-                accumulatedDates = { ...accumulatedDates, 
-                    [nextDateString] : {color: 'lightskyblue'}                            
-                }
-            }                                              
-            
-            setMarkedDates({ ...accumulatedDates, 
-                [day.dateString] : {endingDay: true, color: 'lightskyblue'}                            
-            })
-
-                    
-            setMarkingState('START')
         } 
 
 
