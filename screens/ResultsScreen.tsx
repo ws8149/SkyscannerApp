@@ -67,8 +67,7 @@ const ResultsScreen: React.FC = () => {
 
     //////////////////////////// Helper Functions End ////////////////////////////////////
 
-    const makeRequestToApi = () => {
-        console.log(API_KEY)
+    const makeRequestToApi = () => {        
         let url = `/${searchParams.searchType}/v1.0/MY/MYR/en-MY/`
         url += `${searchParams.departureAirportId}/${searchParams.destinationAirportId}/`
         url += `${searchParams.departureDate}`

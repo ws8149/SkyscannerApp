@@ -42,8 +42,7 @@ const SearchScreen: React.FC = () => {
     return true
   }
 
-  useEffect(() => {
-    console.log("checking if search params is valid")
+  useEffect(() => {    
     let formIsValid = validateForm()
     if (formIsValid) {
       setButtonIsDisabled(false)
