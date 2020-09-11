@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {    
-    View,    
+import React, { useState  } from 'react';
+import {
+    View,
     TouchableOpacity,
     FlatList,
     ActivityIndicator
 } from 'react-native';
 
 import { Overlay, SearchBar, ListItem } from 'react-native-elements';
-import styled from 'styled-components';
-import axios from 'axios';
-import { PrimaryButton, CalendarField, CalendarFieldText } from '../styles/index'
 
-const SelectContainer = styled.View`
-    flex: 1;
-    margin-top: 50px;    
-`
+import axios from 'axios';
+import { PrimaryButton, CalendarField, 
+    CalendarFieldText, SelectContainer} from '../styles/index'
+
+
 
 interface SearchParams {
     departureAirport: string,
@@ -26,13 +24,13 @@ interface SearchParams {
     searchType: string
 }
 
-interface AirportSelectModalProps {    
+interface AirportSelectModalProps {
     searchParams: SearchParams
-    setSearchParams: (searchParams : SearchParams) => void
+    setSearchParams: (searchParams: SearchParams) => void
 }
 
 const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModalProps) => {
-    
+
     const [searchResults, setSearchResults] = useState<string>();
     const [searchText, setSearchText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,23 +57,23 @@ const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModa
         })
 
     }
-    
+
 
 
 
     const selectAirport = (placeId: string, placeName: string) => {
 
         if (isDestination) {
-            
-            setSearchParams({ 
-                ...searchParams, 
+
+            setSearchParams({
+                ...searchParams,
                 destinationAirport: placeName,
                 destinationAirportId: placeId
             })
 
         } else {
-            setSearchParams({ 
-                ...searchParams, 
+            setSearchParams({
+                ...searchParams,
                 departureAirport: placeName,
                 departureAirportId: placeId
             })

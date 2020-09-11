@@ -4,6 +4,12 @@ import {Button} from 'react-native-elements'
 export const SearchContainer = styled.View`
   flex: 1;   
 `
+
+export const SelectContainer = styled.View`
+    flex: 1;
+    margin-top: 50px;    
+`
+
 export const SwitchContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;  
@@ -47,5 +53,10 @@ export const CalendarFieldText = styled.Text`
   font-size: 20px;
   margin-bottom: 5px;  
   color: gray;
+`
+
+export const SortFilterText = styled.Text`  
+  margin: 10px;
+  font-size: 18px;
 `
 

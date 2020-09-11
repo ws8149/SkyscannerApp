@@ -9,13 +9,10 @@ import {
 } from 'react-native';
 
 import { Button, Overlay, CheckBox } from 'react-native-elements';
-import styled from 'styled-components';
-import { PrimaryButton } from '../styles/index'
 
-const SortFilterText = styled.Text`  
-  margin: 10px;
-  font-size: 18px;
-`
+import { PrimaryButton, SortFilterText } from '../styles/index'
+
+
 
 
 
