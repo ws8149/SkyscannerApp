@@ -26,10 +26,7 @@ const SearchScreen: React.FC = () => {
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
   
   // If user pressed on destination field  
-  const [isDestination, setIsDestination] = useState<boolean>(false)   
-  // If user pressed on return date field
-  const [isReturnDate, setIsReturnDate] = useState<boolean>(false)   
-
+  const [isDestination, setIsDestination] = useState<boolean>(false)     
   const [modalVisible, setModalVisible] = useState<boolean>(false)  
   const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -70,20 +67,7 @@ const SearchScreen: React.FC = () => {
       } else {
         setSearchParams({...searchParams, departureAirportId: placeId, departureAirport: placeName})
       }      
-  }
-  
- 
-  const selectDate = (date : string) => {               
-    setCalendarVisible(false)
-    if (isReturnDate) {            
-      setSearchParams({...searchParams, returnDate: date})
-    } else {
-      setSearchParams({...searchParams, departureDate: date})
-    }       
-    
-         
-  }
-
+  }  
   
 
   return (
@@ -120,8 +104,7 @@ const SearchScreen: React.FC = () => {
       
       <CalendarModal 
         calendarVisible={calendarVisible} 
-        setCalendarVisible={setCalendarVisible} 
-        selectDate={selectDate}
+        setCalendarVisible={setCalendarVisible}         
         isOneWay={isOneWay}
         searchParams={searchParams}
       />           

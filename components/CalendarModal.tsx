@@ -21,8 +21,7 @@ interface SearchParams {
 
 interface CalendarModalProps {
     calendarVisible: boolean;
-    setCalendarVisible: (calendarVisible : boolean) => void
-    selectDate: (date : string) => void
+    setCalendarVisible: (calendarVisible : boolean) => void    
     minDate: string
     isOneWay: boolean
     searchParams: SearchParams
@@ -30,8 +29,7 @@ interface CalendarModalProps {
 
 const CalendarModal = ( {
     calendarVisible,
-    setCalendarVisible, 
-    selectDate, 
+    setCalendarVisible,     
     isOneWay = false,
     searchParams
 } : CalendarModalProps) => {                    
@@ -39,6 +37,7 @@ const CalendarModal = ( {
     const [minDate, setMinDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [markedDates, setMarkedDates] = useState({})
     const [markingState, setMarkingState] = useState<string>('START')
+    const [isReturnDate, setIsReturnDate] = useState<boolean>(false)
 
     const handleClose = () => {
         setCalendarVisible(false);            
@@ -46,7 +45,14 @@ const CalendarModal = ( {
 
     const handlePress = (day) => {        
 
-        searchParams.departureDate = day.dateString
+        if (isReturnDate) {
+            searchParams.returnDate = day.dateString
+        } else {
+            searchParams.departureDate = day.dateString
+        }
+        
+        setCalendarVisible(false);
+
         // console.log("Marking State: " + markingState)
 
         // if (isOneWay) {
@@ -97,7 +103,7 @@ const CalendarModal = ( {
             
             <TouchableOpacity onPress={()=>{
                 setCalendarVisible(true)
-                // setIsReturnDate(false)
+                setIsReturnDate(false)
               }}>                                         
                 <CalendarField>                             
                   <CalendarFieldText>{searchParams.departureDate}</CalendarFieldText>                                     
@@ -106,10 +112,10 @@ const CalendarModal = ( {
 
             <TouchableOpacity onPress={()=>{
                 setCalendarVisible(true)
-                // setIsReturnDate(false)
+                setIsReturnDate(true)
               }}>                                         
                 <CalendarField>                             
-                  <CalendarFieldText>Return Date</CalendarFieldText>                                     
+                  <CalendarFieldText>{searchParams.returnDate}</CalendarFieldText>                                     
                 </CalendarField>        
             </TouchableOpacity>  
         </View>
