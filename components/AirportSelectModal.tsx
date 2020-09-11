@@ -29,17 +29,16 @@ interface SearchParams {
     searchType: string
 }
 
-interface AirportSelectModalProps {
-    modalVisible: boolean;
-    setModalVisible: (modalVisible: boolean) => void;
-    selectAirport: (placeId: string, placeName: string) => void;
+interface AirportSelectModalProps {    
     searchParams: SearchParams
 }
 
-const AirportSelectModal = ({ modalVisible, setModalVisible, searchParams }: AirportSelectModalProps) => {
+const AirportSelectModal = ({ searchParams }: AirportSelectModalProps) => {
+    
     const [searchResults, setSearchResults] = useState<string>();
     const [searchText, setSearchText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectModalVisible, setSelectModalVisible] = useState<boolean>(false);
     // If user pressed on destination field  
     const [isDestination, setIsDestination] = useState<boolean>(false)
 
@@ -76,12 +75,12 @@ const AirportSelectModal = ({ modalVisible, setModalVisible, searchParams }: Air
             searchParams.departureAirportId = placeId
         }
 
-        setModalVisible(false)
+        setSelectModalVisible(false)
 
     }
 
     const handleClose = () => {
-        setModalVisible(false);
+        setSelectModalVisible(false);
         setSearchText('');
         setSearchResults('');
     }
@@ -108,7 +107,7 @@ const AirportSelectModal = ({ modalVisible, setModalVisible, searchParams }: Air
 
     return (
         <View>
-            <Overlay isVisible={modalVisible} fullScreen={true}>
+            <Overlay isVisible={selectModalVisible} fullScreen={true}>
                 <View style={{ flex: 1 }}>
                     <SelectContainer>
                         <SearchBar
@@ -137,7 +136,7 @@ const AirportSelectModal = ({ modalVisible, setModalVisible, searchParams }: Air
             </Overlay>
 
             <TouchableOpacity onPress={() => {
-                setModalVisible(true)
+                setSelectModalVisible(true)
                 setIsDestination(false)
                 getSuggestions('Kuala')
             }}>
@@ -149,7 +148,7 @@ const AirportSelectModal = ({ modalVisible, setModalVisible, searchParams }: Air
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => {
-                setModalVisible(true)
+                setSelectModalVisible(true)
                 setIsDestination(true)
                 getSuggestions('Kuala')
             }}>

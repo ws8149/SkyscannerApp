@@ -66,15 +66,11 @@ const SearchScreen: React.FC = () => {
 
       <TitleText> Looking for cheap flights? </TitleText>
 
-      <AirportSelectModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+      <AirportSelectModal        
         searchParams={searchParams}
       />
 
-      <CalendarModal
-        calendarVisible={calendarVisible}
-        setCalendarVisible={setCalendarVisible}
+      <CalendarModal        
         isOneWay={isOneWay}
         searchParams={searchParams}
       />

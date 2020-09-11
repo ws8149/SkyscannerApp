@@ -19,17 +19,13 @@ interface SearchParams {
     searchType: string
 }
 
-interface CalendarModalProps {
-    calendarVisible: boolean;
-    setCalendarVisible: (calendarVisible: boolean) => void
+interface CalendarModalProps {    
     minDate: string
     isOneWay: boolean
     searchParams: SearchParams
 }
 
-const CalendarModal = ({
-    calendarVisible,
-    setCalendarVisible,
+const CalendarModal = ({    
     isOneWay = false,
     searchParams
 }: CalendarModalProps) => {
@@ -38,6 +34,7 @@ const CalendarModal = ({
     const [markedDates, setMarkedDates] = useState({})
     const [markingState, setMarkingState] = useState<string>('START')
     const [isReturnDate, setIsReturnDate] = useState<boolean>(false)
+    const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
 
     const handleClose = () => {
         setCalendarVisible(false);
