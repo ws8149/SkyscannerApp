@@ -121,7 +121,7 @@ const AirportSelectModal = ({ searchParams, setSearchParams }: AirportSelectModa
                         />
 
                         {isLoading ? (<View style={{ padding: 10 }}>
-                            <ActivityIndicator />
+                            <ActivityIndicator color="lightskyblue" />
                         </View>
                         )
                             : (
