@@ -6,8 +6,7 @@ export const SearchContainer = styled.View`
 `
 
 export const SelectContainer = styled.View`
-    flex: 1;
-    margin-top: 50px;    
+    flex: 1;    
 `
 
 export const SwitchContainer = styled.View`
