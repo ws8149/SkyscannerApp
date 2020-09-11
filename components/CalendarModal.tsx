@@ -106,46 +106,27 @@ const CalendarModal = ( {
                 setIsReturnDate(false)
               }}>                                         
                 <CalendarField>                             
-                  <CalendarFieldText>{searchParams.departureDate}</CalendarFieldText>                                     
+                <CalendarFieldText>
+                    {searchParams.departureDate === '' ? 'Departure Date' : searchParams.departureDate }                      
+                </CalendarFieldText> 
                 </CalendarField>        
             </TouchableOpacity>  
 
-            <TouchableOpacity onPress={()=>{
-                setCalendarVisible(true)
-                setIsReturnDate(true)
-              }}>                                         
-                <CalendarField>                             
-                  <CalendarFieldText>{searchParams.returnDate}</CalendarFieldText>                                     
-                </CalendarField>        
-            </TouchableOpacity>  
+            { isOneWay ? <View/> : (
+                <TouchableOpacity onPress={()=>{
+                    setCalendarVisible(true)
+                    setIsReturnDate(true)
+                  }}>                                         
+                    <CalendarField>                             
+                      <CalendarFieldText>
+                          {searchParams.returnDate === '' ? 'Return Date' : searchParams.returnDate }                      
+                      </CalendarFieldText>                                     
+                    </CalendarField>        
+                </TouchableOpacity>  
+            )}            
         </View>
 
     )
 }
 
 export default CalendarModal;
-
-
-{/* <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(false)
-        }}>
-        <Input 
-          value={searchParams.departureDate}
-          placeholder='Departure Date (YYYY/MM/DD)'                              
-          disabled={true}
-        />
-      </TouchableOpacity>    */}
-
-//       { isOneWay ? <View/> : (
-//         <TouchableOpacity onPress={()=>{
-//           setCalendarVisible(true)
-//           setIsReturnDate(true)
-//         }}>
-//           <Input 
-//             value={searchParams.returnDate}
-//             placeholder='Return Date (YYYY/MM/DD)'        
-//             disabled={true}
-//           />
-//         </TouchableOpacity>        
-//       )}      
