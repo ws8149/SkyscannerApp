@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from 'react';
 import { Calendar } from 'react-native-calendars'
-import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
-import { View } from 'react-native';
+import { Button, Overlay, SearchBar, Input, ListItem } from 'react-native-elements';
+import { View, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
 import { PrimaryButton } from '../styles/index'
 
@@ -78,8 +78,8 @@ const CalendarModal = ( {
                 />
                 
                 <PrimaryButton title="Close" onPress={handleClose} />
-            </View>
-        </Overlay>
+            </View>            
+        </Overlay>      
 
     )
 }

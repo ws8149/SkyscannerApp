@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import { Input } from 'react-native-elements';
-import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
 import { SearchContainer, SwitchContainer, 
-        TitleText, SwitchText, PrimaryButton } from '../styles/index'
+        TitleText, SwitchText, PrimaryButton, 
+        CalendarField, CalendarFieldText } from '../styles/index'
 
 interface SearchParams {
   departureAirport: string,
@@ -71,40 +71,9 @@ const SearchScreen: React.FC = () => {
         setSearchParams({...searchParams, departureAirportId: placeId, departureAirport: placeName})
       }      
   }
-
-  // const dateIsValid = (date: string) => {
-  //   var selectedDate = new Date(date);
-  //   var currentDate = new Date();    
-  //   var departureDate = new Date('');
-  //   currentDate.setHours(0,0,0,0)
-    
-  //   if (currentDate > selectedDate) {      
-  //     return false
-  //   } 
-
-  //   if (isReturnDate && searchParams.departureDate !== '') {
-  //     // if user selected a return date and departure date is not empty
-  //     var departureDate = new Date(searchParams.departureDate);
-  //     if (departureDate > selectedDate) {         
-  //       return false
-  //     }
-  //   } 
-    
-  //   return true
-    
-  // }
+  
  
-  const selectDate = (date : string) => {           
-    // if (dateIsValid(date)) {
-    //   setCalendarVisible(false)
-    //   if (isReturnDate) {            
-    //     setSearchParams({...searchParams, returnDate: date})
-    //   } else {
-    //     setSearchParams({...searchParams, departureDate: date})
-    //   }       
-    // } else {      
-    //   Alert.alert('Invalid return date')
-    // }
+  const selectDate = (date : string) => {               
     setCalendarVisible(false)
     if (isReturnDate) {            
       setSearchParams({...searchParams, returnDate: date})
@@ -162,7 +131,21 @@ const SearchScreen: React.FC = () => {
           placeholder='Departure Date (YYYY/MM/DD)'                              
           disabled={true}
         />
-      </TouchableOpacity>        
+      </TouchableOpacity>     
+
+      
+
+
+      <TouchableOpacity onPress={()=>{
+          setCalendarVisible(true)
+          setIsReturnDate(false)
+        }}>          
+          <CalendarField>
+            <CalendarFieldText>{searchParams.departureDate}</CalendarFieldText>                                     
+          </CalendarField>        
+      </TouchableOpacity>     
+
+      
 
       { isOneWay ? <View/> : (
         <TouchableOpacity onPress={()=>{

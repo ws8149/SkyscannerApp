@@ -35,3 +35,12 @@ export const PrimaryButton = styled(Button).attrs({
   buttonStyle: { backgroundColor: "dodgerblue" },
   raised: true  
 })``;
+
+export const CalendarField = styled.View`
+  border-bottom-width: 1;  
+  margin: 10px;
+`
+
+export const CalendarFieldText = styled.Text`
+  font-size: 20px;
+`
