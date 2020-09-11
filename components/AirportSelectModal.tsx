@@ -12,23 +12,36 @@ import {
 import { Button, Overlay, SearchBar, ListItem } from 'react-native-elements';
 import styled from 'styled-components';
 import axios from 'axios';
-import { PrimaryButton } from '../styles/index'
+import { PrimaryButton, CalendarField, CalendarFieldText} from '../styles/index'
 
 const SelectContainer = styled.View`
     flex: 1;
     margin-top: 50px;    
 `
 
+interface SearchParams {
+    departureAirport: string,
+    destinationAirport: string,
+    departureAirportId: string,
+    destinationAirportId: string,
+    departureDate: string,
+    returnDate: string,
+    searchType: string
+  }
+
 interface AirportSelectModalProps {
     modalVisible : boolean;
     setModalVisible : (modalVisible : boolean) => void;
     selectAirport : (placeId : string, placeName : string) => void;
+    searchParams: SearchParams
 }
 
-const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : AirportSelectModalProps ) => {        
+const AirportSelectModal = ({modalVisible,setModalVisible,searchParams} : AirportSelectModalProps ) => {        
     const [searchResults, setSearchResults] = useState<string>();
     const [searchText, setSearchText] = useState<string>('');   
     const [isLoading, setIsLoading] = useState<boolean>(false);      
+    // If user pressed on destination field  
+    const [isDestination, setIsDestination] = useState<boolean>(false)     
     
     const filterAirports = (text: string) => {
         setSearchText(text)                
@@ -44,6 +57,20 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
         }
         
     }    
+
+    const selectAirport = (placeId : string, placeName: string) => {
+        
+        if (isDestination) {
+            searchParams.destinationAirport = placeName
+            searchParams.destinationAirportId = placeId
+        } else {
+            searchParams.departureAirport = placeName
+            searchParams.departureAirportId = placeId
+        }
+
+        setModalVisible(false)
+        
+    }
 
     const handleClose = () => {
         setModalVisible(false);
@@ -72,34 +99,59 @@ const AirportSelectModal = ({modalVisible,setModalVisible,selectAirport} : Airpo
     const keyExtractor = (item,index) => index.toString()
 
     return (                
-        <Overlay isVisible={modalVisible} fullScreen={true}>            
-            <View style={{flex:1}}>
-                <SelectContainer>                            
-                    <SearchBar 
-                        placeholder="Type here.."                    
-                        value={searchText}                        
-                        onChangeText={text => filterAirports(text)}                    
-                    />                    
-                    
-                    { isLoading ? ( <View style={{padding:10}}>
-                                        <ActivityIndicator/>
-                                    </View>
-                                  )
-                                : (
-                                    <FlatList
-                                        keyExtractor={keyExtractor}
-                                        data={searchResults}
-                                        renderItem={renderItem}
-                                        keyboardShouldPersistTaps='handled'
-                                    />                               
-                                  )
-                    }
-                             
-                </SelectContainer>
-                <PrimaryButton title="Close" onPress={handleClose} />
-                
-            </View>
-        </Overlay>
+        <View>
+            <Overlay isVisible={modalVisible} fullScreen={true}>            
+                <View style={{flex:1}}>
+                    <SelectContainer>                            
+                        <SearchBar 
+                            placeholder="Type here.."                    
+                            value={searchText}                        
+                            onChangeText={text => filterAirports(text)}                    
+                        />                    
+                        
+                        { isLoading ? ( <View style={{padding:10}}>
+                                            <ActivityIndicator/>
+                                        </View>
+                                      )
+                                    : (
+                                        <FlatList
+                                            keyExtractor={keyExtractor}
+                                            data={searchResults}
+                                            renderItem={renderItem}
+                                            keyboardShouldPersistTaps='handled'
+                                        />                               
+                                      )
+                        }
+                                 
+                    </SelectContainer>
+                    <PrimaryButton title="Close" onPress={handleClose} />                    
+                </View>
+            </Overlay>
+
+            <TouchableOpacity onPress={()=>{
+                setModalVisible(true)
+                setIsDestination(false)
+              }}>                                         
+                <CalendarField>                             
+                <CalendarFieldText>
+                    {searchParams.departureAirport === '' ? 'Departure From (eg: KUL)' : searchParams.departureAirport }                      
+                </CalendarFieldText> 
+                </CalendarField>        
+            </TouchableOpacity>  
+
+            <TouchableOpacity onPress={()=>{
+                setModalVisible(true)
+                setIsDestination(true)
+              }}>                                         
+                <CalendarField>                             
+                <CalendarFieldText>
+                    {searchParams.destinationAirport === '' ? 'Destination (eg: LHR)' : searchParams.destinationAirport }                      
+                </CalendarFieldText> 
+                </CalendarField>        
+            </TouchableOpacity>  
+
+            
+        </View>
 
     )
 }

@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import { Input } from 'react-native-elements';
-import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
 import AirportSelectModal from '../components/AirportSelectModal'
 import CalendarModal from '../components/CalendarModal'
 
 import { SearchContainer, SwitchContainer, 
-        TitleText, SwitchText, PrimaryButton } from '../styles/index'
+        TitleText, SwitchText, PrimaryButton, 
+        CalendarField, CalendarFieldText } from '../styles/index'
 
 interface SearchParams {
   departureAirport: string,
@@ -25,11 +25,7 @@ const SearchScreen: React.FC = () => {
   const navigation = useNavigation();      
   const [isOneWay, setIsOneWay] = useState<boolean>(false)
   
-  // If user pressed on destination field  
-  const [isDestination, setIsDestination] = useState<boolean>(false)   
-  // If user pressed on return date field
-  const [isReturnDate, setIsReturnDate] = useState<boolean>(false)   
-
+  
   const [modalVisible, setModalVisible] = useState<boolean>(false)  
   const [calendarVisible, setCalendarVisible] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -61,121 +57,25 @@ const SearchScreen: React.FC = () => {
   const toggleSwitch = () => {
     setIsOneWay(prevState => !prevState) 
     setSearchParams({...searchParams, returnDate: ''})
-  }
-
-  const selectAirport = (placeId : string, placeName : string) => {      
-      setModalVisible(false)
-      if (isDestination) {
-        setSearchParams({...searchParams, destinationAirportId: placeId, destinationAirport: placeName})
-      } else {
-        setSearchParams({...searchParams, departureAirportId: placeId, departureAirport: placeName})
-      }      
-  }
-
-  // const dateIsValid = (date: string) => {
-  //   var selectedDate = new Date(date);
-  //   var currentDate = new Date();    
-  //   var departureDate = new Date('');
-  //   currentDate.setHours(0,0,0,0)
-    
-  //   if (currentDate > selectedDate) {      
-  //     return false
-  //   } 
-
-  //   if (isReturnDate && searchParams.departureDate !== '') {
-  //     // if user selected a return date and departure date is not empty
-  //     var departureDate = new Date(searchParams.departureDate);
-  //     if (departureDate > selectedDate) {         
-  //       return false
-  //     }
-  //   } 
-    
-  //   return true
-    
-  // }
- 
-  const selectDate = (date : string) => {           
-    // if (dateIsValid(date)) {
-    //   setCalendarVisible(false)
-    //   if (isReturnDate) {            
-    //     setSearchParams({...searchParams, returnDate: date})
-    //   } else {
-    //     setSearchParams({...searchParams, departureDate: date})
-    //   }       
-    // } else {      
-    //   Alert.alert('Invalid return date')
-    // }
-    setCalendarVisible(false)
-    if (isReturnDate) {            
-      setSearchParams({...searchParams, returnDate: date})
-    } else {
-      setSearchParams({...searchParams, departureDate: date})
-    }       
-    
-         
-  }
-
-  
+  }   
 
   return (
-    <SearchContainer>      
+    <SearchContainer>                     
+
+      <TitleText> Looking for cheap flights? </TitleText>
+
       <AirportSelectModal 
         modalVisible={modalVisible} 
-        setModalVisible={setModalVisible} 
-        selectAirport={selectAirport} />
+        setModalVisible={setModalVisible}         
+        searchParams={searchParams} 
+      />     
       
       <CalendarModal 
         calendarVisible={calendarVisible} 
-        setCalendarVisible={setCalendarVisible} 
-        selectDate={selectDate}
+        setCalendarVisible={setCalendarVisible}         
         isOneWay={isOneWay}
-        />      
-
-      <TitleText> Looking for cheap flights? </TitleText>
-      <TouchableOpacity onPress={()=>{ 
-          setModalVisible(true)
-          setIsDestination(false)
-        }
-      }>
-        <Input value={searchParams.departureAirport} placeholder='Departure From (eg: KUL)' disabled={true}/>
-      </TouchableOpacity>     
-      
-      
-      <TouchableOpacity onPress={()=>{ 
-          setModalVisible(true)
-          setIsDestination(true)
-        }
-      }>
-        <Input 
-          value={searchParams.destinationAirport}
-          placeholder='Destination (eg: LHR)'        
-          disabled={true}
-        />                
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(false)
-        }}>
-        <Input 
-          value={searchParams.departureDate}
-          placeholder='Departure Date (YYYY/MM/DD)'                              
-          disabled={true}
-        />
-      </TouchableOpacity>        
-
-      { isOneWay ? <View/> : (
-        <TouchableOpacity onPress={()=>{
-          setCalendarVisible(true)
-          setIsReturnDate(true)
-        }}>
-          <Input 
-            value={searchParams.returnDate}
-            placeholder='Return Date (YYYY/MM/DD)'        
-            disabled={true}
-          />
-        </TouchableOpacity>        
-      )}      
+        searchParams={searchParams}
+      />           
 
       <SwitchContainer>
         <SwitchText>One Way</SwitchText>
